@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados - TestJava2BBDD</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🎓 TestJava2BBDD</h1>
+            <p>Resultados del Test</p>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <div id="resultados-section">
+                <!-- Puntuación -->
+                <div class="resultado-score">
+                    <div id="score-circulo" class="score-circulo">
+                        <div id="score-percentage"></div>
+                    </div>
+                    <div id="score-info"></div>
+                </div>
+
+                <!-- Mensaje de evaluación -->
+                <div id="evaluacion" class="feedback-container"></div>
+
+                <!-- Conceptos débiles -->
+                <div id="conceptos-section" style="display:none;">
+                    <h2>📌 Conceptos a reforzar</h2>
+                    <ul id="conceptos-list"></ul>
+
+                    <h3>💡 Recomendaciones</h3>
+                    <ul>
+                        <li>Repasa los temas marcados</li>
+                        <li>Intenta el test de nuevo más tarde</li>
+                        <li>Si aún tienes dudas, consulta la documentación</li>
+                    </ul>
+                </div>
+
+                <!-- Recurso (si puntuación <= 70%) -->
+                <div id="recurso-section" style="display:none;">
+                    <div class="recurso-box">
+                        <h3>📚 Recurso de apoyo</h3>
+                        <p>Para reforzar, consulta:</p>
+                        <a id="recurso-link" href="#" target="_blank" class="btn btn-primary">Ver recurso</a>
+                    </div>
+                </div>
+
+                <!-- Opción de subir nivel (si >= 80%) -->
+                <div id="subir-nivel-section" style="display:none;">
+                    <div class="subir-nivel-box">
+                        <h3>🚀 ¡Oportunidad de mejora!</h3>
+                        <p>Porque parece que tienes más nivel del que crees...</p>
+                        <p>¿Quieres intentar el siguiente nivel de dificultad?</p>
+                        <div>
+                            <button onclick="subirNivel()" class="btn btn-primary">Sí, quiero un reto</button>
+                            <button onclick="repetirNivel()" class="btn btn-secondary">No, repito este nivel</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botones de acción -->
+                <div class="acciones">
+                    <button onclick="volverAlMenu()" class="btn btn-primary">← Volver al menú</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>TestJava2BBDD © 2024 - Aprende practicando</p>
+        </div>
+    </div>
+
+    <style>
+        .resultado-score {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .score-circulo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), #667eea);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+
+        .score-circulo #score-percentage {
+            font-size: 3em;
+            font-weight: bold;
+            color: white;
+        }
+
+        #score-info {
+            font-size: 1.2em;
+            margin-top: 20px;
+            color: var(--dark);
+        }
+
+        .recurso-box, .subir-nivel-box {
+            background: var(--light);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin: 20px 0;
+            border-left: 4px solid var(--primary);
+        }
+
+        .subir-nivel-box {
+            border-left-color: var(--warning);
+        }
+
+        .acciones {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        ul {
+            margin: 15px 0 15px 30px;
+        }
+
+        li {
+            margin: 10px 0;
+        }
+
+        #conceptos-list li::before {
+            content: "❌ ";
+            margin-right: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .score-circulo {
+                width: 120px;
+                height: 120px;
+            }
+
+            .score-circulo #score-percentage {
+                font-size: 2em;
+            }
+        }
+    </style>
+
+    <script src="js/api.js"></script>
+    <script src="js/resultados.js"></script>
+</body>
+</html>

@@ -1,48 +1,32 @@
-# Compilados Java
-*.class
-*.ctxt
-
-# Archivos de empaquetamiento
+# Maven
+target/
 *.jar
 *.war
-*.rar
+*.ear
 *.zip
+*.tar.gz
+.m2/
 
-# Logs
-*.log
-
-# IDEs
+# IDE
 .idea/
 .vscode/
 *.iml
 *.iws
 *.ipr
-.project
-.classpath
-.c9/
-*.sublime-workspace
+*.swp
+*.swo
+*~
 
 # OS
 .DS_Store
 Thumbs.db
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
 
-# Directorios de compilación
-out/
-build/
+# Logs
+logs/
+*.log
+
+# Misc
+.env
+.env.local
+node_modules/
 dist/
-target/
-
-# Archivos temporales
-*.tmp
-*.swp
-*.swo
-*~
-.~*
-
-# Claude Code
-.claude/
