@@ -8,11 +8,12 @@ import { TestService } from '@/lib/TestService';
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { testId: string; sessionId: string } }
+  { params }: { params: Promise<{ testId: string; sessionId: string }> }
 ) {
   try {
-    const testId = parseInt(params.testId, 10);
-    const sessionId = params.sessionId;
+    const { testId: testIdParam, sessionId: sessionIdParam } = await params;
+    const testId = parseInt(testIdParam, 10);
+    const sessionId = sessionIdParam;
     const body = await request.json();
 
     const { questionId, answer } = body;

@@ -8,10 +8,11 @@ import { TestService } from '@/lib/TestService';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { testId: string; sessionId: string } }
+  { params }: { params: Promise<{ testId: string; sessionId: string }> }
 ) {
   try {
-    const sessionId = params.sessionId;
+    const { sessionId: sessionIdParam } = await params;
+    const sessionId = sessionIdParam;
 
     // Obtener resultados
     const resultados = TestService.obtenerResultados(sessionId);

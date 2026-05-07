@@ -9,10 +9,11 @@ import { DificultadEnum } from '@/lib/types';
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { testId: string } }
+  { params }: { params: Promise<{ testId: string }> }
 ) {
   try {
-    const testId = parseInt(params.testId, 10);
+    const { testId: testIdParam } = await params;
+    const testId = parseInt(testIdParam, 10);
     const body = await request.json();
 
     const { userName, difficulty } = body;

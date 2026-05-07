@@ -33,10 +33,11 @@ Responsabilidades:
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { section: string } }
+  { params }: { params: Promise<{ section: string }> }
 ) {
   try {
-    const section = decodeURIComponent(params.section);
+    const { section: sectionParam } = await params;
+    const section = decodeURIComponent(sectionParam);
 
     const content = EAC8_CONTENT[section];
 
