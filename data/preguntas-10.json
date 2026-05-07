@@ -1,0 +1,212 @@
+[
+  {
+    "id": 1,
+    "texto": "SessionFactory en Hibernate crea:",
+    "opciones": ["Sesiones", "Pool sesiones (singleton)", "Mapeos", "Tablas"],
+    "dificultad": 1,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 2,
+    "texto": "Session en Hibernate representa:",
+    "opciones": ["Usuario", "Conversación BD (unidad trabajo)", "Conexión", "Transacción"],
+    "dificultad": 1,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 3,
+    "texto": "session.beginTransaction() inicia:",
+    "opciones": ["Sesión", "Transacción explícita", "Query", "Conexión"],
+    "dificultad": 1,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 4,
+    "texto": "transaction.commit() persiste:",
+    "opciones": ["Consulta", "Cambios a BD (permanente)", "Sesión", "Query"],
+    "dificultad": 1,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 5,
+    "texto": "transaction.rollback() revierte:",
+    "opciones": ["Sesión", "Cambios de transacción", "Tablas", "Mapeos"],
+    "dificultad": 1,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 6,
+    "texto": "session.close() finaliza:",
+    "opciones": ["Transacción", "Sesión (libera recursos)", "BD", "Aplicación"],
+    "dificultad": 1,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 7,
+    "texto": "sessionFactory.close() cierra:",
+    "opciones": ["Sesión", "Fábrica (libera todo)", "Transacción", "Query"],
+    "dificultad": 1,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 8,
+    "texto": "Configuration en Hibernate configura:",
+    "opciones": ["Entidades", "Propiedades, mapeos, BD", "Sesiones", "Queries"],
+    "dificultad": 1,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 9,
+    "texto": "hibernate.cfg.xml es:",
+    "opciones": ["Clase", "Archivo configuración Hibernate", "Entidad", "Mapeo"],
+    "dificultad": 1,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 10,
+    "texto": "ORMappingException es lanzado por:",
+    "opciones": ["Usuario", "Errores mapeo anotaciones", "SQL", "BD"],
+    "dificultad": 1,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 11,
+    "texto": "Annotation-based mapping usa:",
+    "opciones": ["XML", "@Entity, @Column, etc", "SQL", "Configuración"],
+    "dificultad": 2,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 12,
+    "texto": "XML-based mapping usa archivos:",
+    "opciones": ["Anotaciones", ".hbm.xml (mapeo XML)", "Clases", "Propiedades"],
+    "dificultad": 2,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 13,
+    "texto": "persist() en EntityManager:",
+    "opciones": ["Carga", "Inserta nuevo (managed)", "Actualiza", "Borra"],
+    "dificultad": 2,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 14,
+    "texto": "merge() en EntityManager:",
+    "opciones": ["Nuevo", "Actualiza detached", "Borra", "Carga"],
+    "dificultad": 2,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 15,
+    "texto": "find(id) en EntityManager obtiene:",
+    "opciones": ["Por query", "Por clave primaria", "Primer", "Todos"],
+    "dificultad": 2,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 16,
+    "texto": "remove() en EntityManager elimina:",
+    "opciones": ["Managed entity", "Entidad de BD", "Temporal", "Todo"],
+    "dificultad": 2,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 17,
+    "texto": "flush() en Session:",
+    "opciones": ["Cierra", "Sincroniza BD (no commit)", "Rollback", "Nada"],
+    "dificultad": 2,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 18,
+    "texto": "clear() en Session limpia:",
+    "opciones": ["BD", "Caché de sesión", "Transacción", "Mapeos"],
+    "dificultad": 2,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 19,
+    "texto": "evict() en Session desasocia:",
+    "opciones": ["Sesión", "Una entidad de caché", "Todas", "BD"],
+    "dificultad": 2,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 20,
+    "texto": "Query.setMaxResults(10) limita:",
+    "opciones": ["Queries", "Filas resultado", "Conexiones", "Sesiones"],
+    "dificultad": 2,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 21,
+    "texto": "JPA (Java Persistence API) es:",
+    "opciones": ["Hibernate", "Especificación ORM (Hibernate implementa)", "SQL", "JDBC"],
+    "dificultad": 3,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 22,
+    "texto": "EntityManager en JPA es equivalente a:",
+    "opciones": ["SessionFactory", "Session en Hibernate", "Connection", "ResultSet"],
+    "dificultad": 3,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 23,
+    "texto": "@PersistenceContext anotación es para:",
+    "opciones": ["Inyección conexión", "Inyección EntityManager", "Mapeo", "Query"],
+    "dificultad": 3,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 24,
+    "texto": "Query.createQuery() es para:",
+    "opciones": ["Nativo", "HQL/JPQL query", "Stored procedure", "DDL"],
+    "dificultad": 3,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 25,
+    "texto": "Query.createNativeQuery() es para:",
+    "opciones": ["HQL", "SQL puro", "Stored procedure", "Entity"],
+    "dificultad": 3,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 26,
+    "texto": "setParameter(nombre, valor) establece:",
+    "opciones": ["Propiedad", "Valor parámetro query", "Entidad", "Conexión"],
+    "dificultad": 3,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 27,
+    "texto": "getSingleResult() retorna:",
+    "opciones": ["Lista", "Un único resultado", "Todos", "Null"],
+    "dificultad": 3,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 28,
+    "texto": "getResultList() retorna:",
+    "opciones": ["Un resultado", "Lista de resultados", "Una fila", "Null"],
+    "dificultad": 3,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 29,
+    "texto": "refresh() en EntityManager:",
+    "opciones": ["Guarda", "Recarga de BD (deshace cambios)", "Copia", "Clona"],
+    "dificultad": 3,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 30,
+    "texto": "detach() en EntityManager:",
+    "opciones": ["Carga", "Desasocia entidad de contexto", "Borra", "Guarda"],
+    "dificultad": 3,
+    "respuestaCorrecta": "s"
+  }
+]

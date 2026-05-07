@@ -1,0 +1,212 @@
+[
+  {
+    "id": 1,
+    "texto": "Collection en Java es:",
+    "opciones": ["Una clase", "Interfaz para agrupar objetos", "Un método", "Una variable"],
+    "dificultad": 1,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 2,
+    "texto": "List en Java es:",
+    "opciones": ["Única", "Colección ordenada, permite duplicados", "Sin orden", "Sin valores"],
+    "dificultad": 1,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 3,
+    "texto": "Set en Java es:",
+    "opciones": ["Ordenada", "Sin duplicados, sin orden garantizado", "Indexada", "Con orden"],
+    "dificultad": 1,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 4,
+    "texto": "Map en Java es:",
+    "opciones": ["Lista", "Clave-valor (diccionario)", "Conjunto", "Array"],
+    "dificultad": 1,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 5,
+    "texto": "ArrayList es:",
+    "opciones": ["Array fijo", "Lista redimensionable basada array", "Conjunto", "Diccionario"],
+    "dificultad": 1,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 6,
+    "texto": "LinkedList es:",
+    "opciones": ["Array", "Lista enlazada (nodos)", "Map", "Set"],
+    "dificultad": 1,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 7,
+    "texto": "HashSet es:",
+    "opciones": ["Ordenado", "Set sin orden (hash)", "Secuencia", "Diccionario"],
+    "dificultad": 1,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 8,
+    "texto": "TreeSet es:",
+    "opciones": ["Sin orden", "Set ordenado (árbol)", "Mapa", "Lista"],
+    "dificultad": 1,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 9,
+    "texto": "HashMap es:",
+    "opciones": ["Ordenado", "Map sin orden (hash)", "Set", "Lista"],
+    "dificultad": 1,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 10,
+    "texto": "add() en Collection inserta:",
+    "opciones": ["Reemplaza", "Agrega elemento", "Elimina", "Consulta"],
+    "dificultad": 1,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 11,
+    "texto": "size() en Collection retorna:",
+    "opciones": ["Tipo", "Número elementos", "Lista", "Valor"],
+    "dificultad": 2,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 12,
+    "texto": "contains(elemento) revisa:",
+    "opciones": ["Tipo", "Si elemento existe", "Posición", "Valor"],
+    "dificultad": 2,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 13,
+    "texto": "remove(elemento) elimina:",
+    "opciones": ["Primero", "Primer elemento que coincide", "Todos", "Aleatorio"],
+    "dificultad": 2,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 14,
+    "texto": "get(índice) retorna:",
+    "opciones": ["Tamaño", "Elemento en posición", "Clave", "Valor"],
+    "dificultad": 2,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 15,
+    "texto": "put(clave, valor) en Map inserta:",
+    "opciones": ["Solo clave", "Par clave-valor", "Solo valor", "Elemento"],
+    "dificultad": 2,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 16,
+    "texto": "get(clave) en Map retorna:",
+    "opciones": ["Clave", "Valor asociado", "Índice", "Tipo"],
+    "dificultad": 2,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 17,
+    "texto": "keySet() en Map retorna:",
+    "opciones": ["Valores", "Conjunto claves", "Pares", "Mapa"],
+    "dificultad": 2,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 18,
+    "texto": "values() en Map retorna:",
+    "opciones": ["Claves", "Colección valores", "Pares", "Mapa"],
+    "dificultad": 2,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 19,
+    "texto": "entrySet() en Map retorna:",
+    "opciones": ["Claves", "Pares clave-valor", "Valores", "Mapa"],
+    "dificultad": 2,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 20,
+    "texto": "Comparación ArrayList vs LinkedList:",
+    "opciones": ["Iguales", "ArrayList rápido acceso, LinkedList rápido insert", "Opuesto", "No hay"],
+    "dificultad": 2,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 21,
+    "texto": "equals() y hashCode() relación:",
+    "opciones": ["Sin conexión", "Si iguales, mismo hash (contrato)", "Opuesto", "No hay"],
+    "dificultad": 3,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 22,
+    "texto": "TreeMap es:",
+    "opciones": ["Desordenado", "Map ordenado por clave", "HashSet", "ArrayList"],
+    "dificultad": 3,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 23,
+    "texto": "LinkedHashMap es:",
+    "opciones": ["Random", "Map orden inserción", "HashSet", "TreeSet"],
+    "dificultad": 3,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 24,
+    "texto": "ConcurrentHashMap es para:",
+    "opciones": ["Sincronización", "Maps thread-safe sin lock total", "HashSet", "Única thread"],
+    "dificultad": 3,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 25,
+    "texto": "Collections.sort() ordena:",
+    "opciones": ["Sin cambios", "Colección (in-place)", "Devuelve nueva", "Nada"],
+    "dificultad": 3,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 26,
+    "texto": "Collections.binarySearch() requiere:",
+    "opciones": ["Desordenado", "Lista ordenada", "Set", "Map"],
+    "dificultad": 3,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 27,
+    "texto": "Stream API filter() retorna:",
+    "opciones": ["Original", "Stream filtrado", "Colección", "Booleano"],
+    "dificultad": 3,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 28,
+    "texto": "Stream API map() transforma:",
+    "opciones": ["Mismo tipo", "Stream de resultados transformados", "Colección", "Tipo"],
+    "dificultad": 3,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 29,
+    "texto": "Stream API collect() es:",
+    "opciones": ["Intermedia", "Terminal (recolecta resultados)", "Filtro", "Transformación"],
+    "dificultad": 3,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 30,
+    "texto": "WeakHashMap vs HashMap diferencia:",
+    "opciones": ["Iguales", "Weak permite garbage collection claves", "Opuesto", "No hay"],
+    "dificultad": 3,
+    "respuestaCorrecta": "s"
+  }
+]

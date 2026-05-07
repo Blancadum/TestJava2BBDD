@@ -10,6 +10,13 @@ import { useRouter } from 'next/navigation';
 import { Pregunta, TestSession } from '@/lib/types';
 import QuestionDisplay from '@/components/QuestionDisplay';
 
+interface Tema {
+  id: number;
+  nombre: string;
+  descripcion: string;
+  icono: string;
+}
+
 export default function TestSessionPage({
   params,
 }: {
@@ -26,6 +33,10 @@ export default function TestSessionPage({
   const [answers, setAnswers] = useState<Record<number, 'a' | 's' | 'd' | 'f'>>({});
   const [selectedOption, setSelectedOption] = useState<'a' | 's' | 'd' | 'f' | null>(null);
   const [confirmedAnswer, setConfirmedAnswer] = useState<'a' | 's' | 'd' | 'f' | null>(null);
+  const [difficulty, setDifficulty] = useState<'BAJA' | 'MEDIA' | 'ALTA'>('MEDIA');
+  const [showMenu, setShowMenu] = useState(false);
+  const [menuMode, setMenuMode] = useState<'main' | 'difficulty' | 'other-test'>('main');
+  const [temas, setTemas] = useState<Tema[]>([]);
 
   // Resolver params
   useEffect(() => {
@@ -46,6 +57,21 @@ export default function TestSessionPage({
     }
   }, [currentQuestionIndex, answers]);
 
+  // Cargar temas
+  useEffect(() => {
+    const fetchTemas = async () => {
+      try {
+        const response = await fetch('/data/temas.json');
+        if (!response.ok) throw new Error('Temas no encontrados');
+        const data = await response.json();
+        setTemas(data);
+      } catch (err) {
+        console.error('Error cargando temas:', err);
+      }
+    };
+    fetchTemas();
+  }, []);
+
   // Cargar datos de la sesión
   useEffect(() => {
     if (!testIdState || !sessionIdState) return;
@@ -64,7 +90,7 @@ export default function TestSessionPage({
           'ALTA': 3,
         };
 
-        const selectedDifficulty = difficultyMap['MEDIA']; // Por defecto MEDIA
+        const selectedDifficulty = difficultyMap[difficulty];
         const filteredQuestions = data.filter((q: any) => q.dificultad === selectedDifficulty).slice(0, 10);
 
         // Transformar respuesta al formato esperado
@@ -85,7 +111,7 @@ export default function TestSessionPage({
           sessionId: sessionIdState,
           testId: parseInt(testIdState),
           userName: 'Usuario',
-          difficulty: 'MEDIA',
+          difficulty: difficulty,
           startTime: Date.now(),
           totalQuestions: sampleQuestions.length,
           currentQuestion: 1,
@@ -95,6 +121,8 @@ export default function TestSessionPage({
         } as TestSession;
 
         setSessionData(initialData);
+        setCurrentQuestionIndex(0);
+        setAnswers({});
         setLoading(false);
       } catch (err) {
         console.error('Error cargando preguntas:', err);
@@ -104,7 +132,7 @@ export default function TestSessionPage({
     };
 
     fetchQuestions();
-  }, [testIdState, sessionIdState]);
+  }, [testIdState, sessionIdState, difficulty]);
 
   const handleAnswer = async (answer: 'a' | 's' | 'd' | 'f', isConfirmed = false) => {
     if (!sessionData || !testIdState || !sessionIdState) return;
@@ -174,6 +202,46 @@ export default function TestSessionPage({
 
     const handleKeyPress = (e: KeyboardEvent) => {
       const key = e.key.toLowerCase();
+
+      if (showMenu) {
+        // Navegación dentro del menú
+        if (menuMode === 'main') {
+          if (key === 'arrowup' || key === 'arrowdown') {
+            e.preventDefault();
+          } else if (key === '1') {
+            setMenuMode('difficulty');
+          } else if (key === '2') {
+            setMenuMode('other-test');
+          } else if (key === 'escape') {
+            setShowMenu(false);
+          }
+        } else if (menuMode === 'difficulty') {
+          if (key === '1') {
+            setDifficulty('BAJA');
+            setShowMenu(false);
+          } else if (key === '2') {
+            setDifficulty('MEDIA');
+            setShowMenu(false);
+          } else if (key === '3') {
+            setDifficulty('ALTA');
+            setShowMenu(false);
+          } else if (key === 'escape') {
+            setMenuMode('main');
+          }
+        } else if (menuMode === 'other-test') {
+          if (key === 'escape') {
+            setMenuMode('main');
+          } else if (key >= '1' && key <= '9') {
+            const index = parseInt(key) - 1;
+            const tema = temas[index];
+            if (tema) {
+              router.push(`/tests/${tema.id}/session/${sessionIdState}`);
+            }
+          }
+        }
+        return;
+      }
+
       if (['a', 's', 'd', 'f'].includes(key) && !answering) {
         // Preseleccionar opción
         handleAnswer(key as 'a' | 's' | 'd' | 'f', false);
@@ -203,6 +271,10 @@ export default function TestSessionPage({
             router.push(`/results/${testIdState}/${sessionIdState}`);
           }
         }
+      } else if (key === 'm') {
+        e.preventDefault();
+        setShowMenu(true);
+        setMenuMode('main');
       } else if (key === 'escape') {
         router.push('/');
       }
@@ -210,7 +282,7 @@ export default function TestSessionPage({
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [currentQuestionIndex, sessionData, testIdState, sessionIdState, router, answers, selectedOption]);
+  }, [currentQuestionIndex, sessionData, testIdState, sessionIdState, router, answers, selectedOption, showMenu, menuMode, temas]);
 
   if (loading) {
     return (
@@ -279,6 +351,10 @@ export default function TestSessionPage({
       hasAnswered={currentQuestionIndex in answers}
       selectedOption={selectedOption}
       confirmedAnswer={confirmedAnswer}
+      showMenu={showMenu}
+      menuMode={menuMode}
+      temas={temas}
+      currentDifficulty={difficulty}
     />
   );
 }

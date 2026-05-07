@@ -10,6 +10,13 @@ import { Pregunta } from '@/lib/types';
 import AnswerButton from './AnswerButton';
 import { useTestInfo } from '@/lib/TestContext';
 
+interface Tema {
+  id: number;
+  nombre: string;
+  descripcion: string;
+  icono: string;
+}
+
 interface QuestionDisplayProps {
   question: Pregunta;
   progress: {
@@ -22,6 +29,10 @@ interface QuestionDisplayProps {
   hasAnswered?: boolean;
   selectedOption?: 'a' | 's' | 'd' | 'f' | null;
   confirmedAnswer?: 'a' | 's' | 'd' | 'f' | null;
+  showMenu?: boolean;
+  menuMode?: 'main' | 'difficulty' | 'other-test';
+  temas?: Tema[];
+  currentDifficulty?: 'BAJA' | 'MEDIA' | 'ALTA';
 }
 
 type ColorOption = 'green' | 'white' | 'yellow' | 'cyan' | 'red' | 'purple' | 'fuchsia' | 'gradient';
@@ -74,6 +85,10 @@ export default function QuestionDisplay({
   hasAnswered,
   selectedOption,
   confirmedAnswer,
+  showMenu = false,
+  menuMode = 'main',
+  temas = [],
+  currentDifficulty = 'MEDIA',
 }: QuestionDisplayProps) {
   const [fontColor, setFontColor] = useState<ColorOption>('green');
   const [mounted, setMounted] = useState(false);
@@ -118,6 +133,64 @@ export default function QuestionDisplay({
   };
 
   if (!mounted) return null;
+
+  if (showMenu) {
+    return (
+      <div className={`min-h-screen bg-black p-4 font-mono text-sm ${colorMap[fontColor]}`}>
+        <div className="max-w-3xl mx-auto">
+          <div className={`flex justify-between items-center mb-6 pb-2 border-b ${getBorderClass(fontColor)} font-bold`}>
+            <div>MENÚ</div>
+            <div className="text-xs text-yellow-600">ESC (volver)</div>
+          </div>
+
+          {menuMode === 'main' && (
+            <div className="space-y-4">
+              <div className="text-white mb-4">Selecciona una opción:</div>
+              <div className="border border-gray-500 p-3 cursor-pointer hover:border-white">
+                <div className="text-yellow-300">1. Dificultad</div>
+                <div className="text-xs text-gray-400 mt-1">Cambiar nivel de dificultad (actual: {currentDifficulty})</div>
+              </div>
+              <div className="border border-gray-500 p-3 cursor-pointer hover:border-white">
+                <div className="text-yellow-300">2. Otro Test</div>
+                <div className="text-xs text-gray-400 mt-1">Cambiar de test/materia</div>
+              </div>
+            </div>
+          )}
+
+          {menuMode === 'difficulty' && (
+            <div className="space-y-4">
+              <div className="text-white mb-4">Selecciona dificultad:</div>
+              <div className={`border p-3 cursor-pointer ${currentDifficulty === 'BAJA' ? 'border-green-300 bg-green-900 bg-opacity-20' : 'border-gray-500'}`}>
+                <div className="text-green-300">1. BAJA</div>
+              </div>
+              <div className={`border p-3 cursor-pointer ${currentDifficulty === 'MEDIA' ? 'border-yellow-300 bg-yellow-900 bg-opacity-20' : 'border-gray-500'}`}>
+                <div className="text-yellow-300">2. MEDIA</div>
+              </div>
+              <div className={`border p-3 cursor-pointer ${currentDifficulty === 'ALTA' ? 'border-red-300 bg-red-900 bg-opacity-20' : 'border-gray-500'}`}>
+                <div className="text-red-300">3. ALTA</div>
+              </div>
+            </div>
+          )}
+
+          {menuMode === 'other-test' && (
+            <div className="space-y-2">
+              <div className="text-white mb-4">Selecciona otro test:</div>
+              {temas.map((tema, index) => (
+                <div key={tema.id} className="border border-gray-500 p-2 cursor-pointer hover:border-white hover:bg-gray-900">
+                  <div className="text-cyan-300">{index + 1}. {tema.icono} {tema.nombre}</div>
+                  <div className="text-xs text-gray-400">{tema.descripcion}</div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          <div className={`text-xs border-t ${getBorderClass(fontColor)} pt-2 mt-6 ${getFooterColorClass(fontColor)}`}>
+            <div>ESC (volver al menú principal o test)</div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={`min-h-screen bg-black p-4 font-mono text-sm ${colorMap[fontColor]}`}>
@@ -201,12 +274,12 @@ export default function QuestionDisplay({
           {!selectedOption ? (
             <>
               <div>A | S | D | F (seleccionar)</div>
-              <div className="mt-1">← ATRÁS | ADELANTE → | ESC (salir)</div>
+              <div className="mt-1">← ATRÁS | ADELANTE → | M (menú) | ESC (salir)</div>
             </>
           ) : (
             <>
               <div>↑ ↓ (cambiar) | ENTER (confirmar) | ESC (cancelar)</div>
-              <div className="mt-1">← ATRÁS | ADELANTE → | ESC (salir)</div>
+              <div className="mt-1">← ATRÁS | ADELANTE → | M (menú) | ESC (salir)</div>
             </>
           )}
         </div>
