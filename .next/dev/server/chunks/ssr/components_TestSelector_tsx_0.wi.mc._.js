@@ -65,8 +65,8 @@ function TestSelector() {
     const [selectedIndex, setSelectedIndex] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(0);
     const [level, setLevel] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('fontColor');
     const [currentCategory, setCurrentCategory] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('');
-    const [selectedFontColor, setSelectedFontColor] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('green');
-    const [selectedEmphasisColor, setSelectedEmphasisColor] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('green');
+    const [selectedFontColor, setSelectedFontColor] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('white');
+    const [selectedEmphasisColor, setSelectedEmphasisColor] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('yellow');
     const categories = [
         {
             id: 'BaseDatos',
@@ -93,12 +93,19 @@ function TestSelector() {
             const response = await fetch('/data/temas.json');
             const temas = await response.json();
             // Transformar temas al formato esperado por el frontend
-            const transformedTests = temas.map((tema)=>({
+            const transformedTests = temas.map((tema)=>{
+                // Asignar temas a categorías según el ID
+                let category = 'BaseDatos';
+                if (tema.id >= 6) {
+                    category = 'Programación/Teoría';
+                }
+                return {
                     id: tema.id,
                     name: tema.nombre,
-                    category: 'BaseDatos',
+                    category: category,
                     totalQuestions: 30
-                }));
+                };
+            });
             setTests(transformedTests);
         } catch (err) {
             setError('Error al conectar con el servidor');
@@ -195,12 +202,12 @@ function TestSelector() {
                 children: "$ cargando tests..."
             }, void 0, false, {
                 fileName: "[project]/components/TestSelector.tsx",
-                lineNumber: 177,
+                lineNumber: 185,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/components/TestSelector.tsx",
-            lineNumber: 176,
+            lineNumber: 184,
             columnNumber: 7
         }, this);
     }
@@ -214,7 +221,7 @@ function TestSelector() {
                     children: "$ java -jar tests.jar"
                 }, void 0, false, {
                     fileName: "[project]/components/TestSelector.tsx",
-                    lineNumber: 185,
+                    lineNumber: 193,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -222,7 +229,7 @@ function TestSelector() {
                     children: "TESTS JAVA v1.0"
                 }, void 0, false, {
                     fileName: "[project]/components/TestSelector.tsx",
-                    lineNumber: 186,
+                    lineNumber: 194,
                     columnNumber: 9
                 }, this),
                 level === 'fontColor' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
@@ -232,7 +239,7 @@ function TestSelector() {
                             children: "selecciona color de fuente:"
                         }, void 0, false, {
                             fileName: "[project]/components/TestSelector.tsx",
-                            lineNumber: 190,
+                            lineNumber: 198,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -256,13 +263,13 @@ function TestSelector() {
                                     ]
                                 }, color, true, {
                                     fileName: "[project]/components/TestSelector.tsx",
-                                    lineNumber: 204,
+                                    lineNumber: 212,
                                     columnNumber: 19
                                 }, this);
                             })
                         }, void 0, false, {
                             fileName: "[project]/components/TestSelector.tsx",
-                            lineNumber: 191,
+                            lineNumber: 199,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -270,7 +277,7 @@ function TestSelector() {
                             children: "↑ ↓ (navegar) | ENTER (siguiente)"
                         }, void 0, false, {
                             fileName: "[project]/components/TestSelector.tsx",
-                            lineNumber: 213,
+                            lineNumber: 221,
                             columnNumber: 13
                         }, this)
                     ]
@@ -282,7 +289,7 @@ function TestSelector() {
                             children: "selecciona color de énfasis:"
                         }, void 0, false, {
                             fileName: "[project]/components/TestSelector.tsx",
-                            lineNumber: 221,
+                            lineNumber: 229,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -306,13 +313,13 @@ function TestSelector() {
                                     ]
                                 }, color, true, {
                                     fileName: "[project]/components/TestSelector.tsx",
-                                    lineNumber: 235,
+                                    lineNumber: 243,
                                     columnNumber: 19
                                 }, this);
                             })
                         }, void 0, false, {
                             fileName: "[project]/components/TestSelector.tsx",
-                            lineNumber: 222,
+                            lineNumber: 230,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -320,7 +327,7 @@ function TestSelector() {
                             children: "↑ ↓ (navegar) | ENTER (siguiente)"
                         }, void 0, false, {
                             fileName: "[project]/components/TestSelector.tsx",
-                            lineNumber: 244,
+                            lineNumber: 252,
                             columnNumber: 13
                         }, this)
                     ]
@@ -339,13 +346,13 @@ function TestSelector() {
                                     className: `bg-black ${colorMap[selectedFontColor]} outline-none ${getBorderClass(selectedFontColor)} border-b ml-1`
                                 }, void 0, false, {
                                     fileName: "[project]/components/TestSelector.tsx",
-                                    lineNumber: 252,
+                                    lineNumber: 260,
                                     columnNumber: 43
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/TestSelector.tsx",
-                            lineNumber: 252,
+                            lineNumber: 260,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -353,7 +360,7 @@ function TestSelector() {
                             children: "> ENTER (siguiente) | ← ATRÁS"
                         }, void 0, false, {
                             fileName: "[project]/components/TestSelector.tsx",
-                            lineNumber: 259,
+                            lineNumber: 267,
                             columnNumber: 13
                         }, this)
                     ]
@@ -368,7 +375,7 @@ function TestSelector() {
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/TestSelector.tsx",
-                            lineNumber: 265,
+                            lineNumber: 273,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -376,7 +383,7 @@ function TestSelector() {
                             children: "[ CATEGORIAS ]"
                         }, void 0, false, {
                             fileName: "[project]/components/TestSelector.tsx",
-                            lineNumber: 266,
+                            lineNumber: 274,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -389,12 +396,12 @@ function TestSelector() {
                                     ]
                                 }, cat.id, true, {
                                     fileName: "[project]/components/TestSelector.tsx",
-                                    lineNumber: 269,
+                                    lineNumber: 277,
                                     columnNumber: 17
                                 }, this))
                         }, void 0, false, {
                             fileName: "[project]/components/TestSelector.tsx",
-                            lineNumber: 267,
+                            lineNumber: 275,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -402,7 +409,7 @@ function TestSelector() {
                             children: "↑ ↓ (navegar) | ENTER (seleccionar)"
                         }, void 0, false, {
                             fileName: "[project]/components/TestSelector.tsx",
-                            lineNumber: 274,
+                            lineNumber: 282,
                             columnNumber: 13
                         }, this)
                     ]
@@ -418,7 +425,7 @@ function TestSelector() {
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/TestSelector.tsx",
-                            lineNumber: 282,
+                            lineNumber: 290,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -432,7 +439,7 @@ function TestSelector() {
                                         ]
                                     }, test.id, true, {
                                         fileName: "[project]/components/TestSelector.tsx",
-                                        lineNumber: 285,
+                                        lineNumber: 293,
                                         columnNumber: 17
                                     }, this)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -443,13 +450,13 @@ function TestSelector() {
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/components/TestSelector.tsx",
-                                    lineNumber: 289,
+                                    lineNumber: 297,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/TestSelector.tsx",
-                            lineNumber: 283,
+                            lineNumber: 291,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -457,7 +464,7 @@ function TestSelector() {
                             children: "↑ ↓ (navegar) | ENTER (seleccionar) | ← (volver)"
                         }, void 0, false, {
                             fileName: "[project]/components/TestSelector.tsx",
-                            lineNumber: 293,
+                            lineNumber: 301,
                             columnNumber: 13
                         }, this)
                     ]
@@ -467,18 +474,18 @@ function TestSelector() {
                     children: error
                 }, void 0, false, {
                     fileName: "[project]/components/TestSelector.tsx",
-                    lineNumber: 299,
+                    lineNumber: 307,
                     columnNumber: 19
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/components/TestSelector.tsx",
-            lineNumber: 184,
+            lineNumber: 192,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/components/TestSelector.tsx",
-        lineNumber: 183,
+        lineNumber: 191,
         columnNumber: 5
     }, this);
 }

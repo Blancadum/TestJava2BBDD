@@ -1,8 +1,6 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
-  "/api/tests/[testId]/start/route": "app/api/tests/[testId]/start/route.js",
-  "/api/tests/route": "app/api/tests/route.js",
   "/page": "app/page.js",
+  "/results/[testId]/[sessionId]/page": "app/results/[testId]/[sessionId]/page.js",
   "/tests/[testId]/page": "app/tests/[testId]/page.js",
   "/tests/[testId]/session/[sessionId]/page": "app/tests/[testId]/session/[sessionId]/page.js"
 }

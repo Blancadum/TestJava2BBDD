@@ -33,6 +33,9 @@ interface QuestionDisplayProps {
   menuMode?: 'main' | 'difficulty' | 'other-test';
   temas?: Tema[];
   currentDifficulty?: 'BAJA' | 'MEDIA' | 'ALTA';
+  answers?: Record<number, 'a' | 's' | 'd' | 'f'>;
+  onQuestionClick?: (index: number) => void;
+  currentTema?: Tema;
 }
 
 type ColorOption = 'green' | 'white' | 'yellow' | 'cyan' | 'red' | 'purple' | 'fuchsia' | 'gradient';
@@ -89,13 +92,16 @@ export default function QuestionDisplay({
   menuMode = 'main',
   temas = [],
   currentDifficulty = 'MEDIA',
+  answers = {},
+  onQuestionClick = () => {},
+  currentTema,
 }: QuestionDisplayProps) {
-  const [fontColor, setFontColor] = useState<ColorOption>('green');
+  const [fontColor, setFontColor] = useState<ColorOption>('white');
   const [mounted, setMounted] = useState(false);
   const { setTestInfo } = useTestInfo();
 
   useEffect(() => {
-    const savedColor = (localStorage.getItem('terminalFontColor') as ColorOption) || 'green';
+    const savedColor = (localStorage.getItem('terminalFontColor') as ColorOption) || 'white';
     setFontColor(savedColor);
     setMounted(true);
   }, []);
@@ -136,7 +142,7 @@ export default function QuestionDisplay({
 
   if (showMenu) {
     return (
-      <div className={`min-h-screen bg-black p-4 font-mono text-sm ${colorMap[fontColor]}`}>
+      <div className={`min-h-screen bg-black p-6 font-mono text-sm ${colorMap[fontColor]}`}>
         <div className="max-w-3xl mx-auto">
           <div className={`flex justify-between items-center mb-6 pb-2 border-b ${getBorderClass(fontColor)} font-bold`}>
             <div>MENÚ</div>
@@ -193,21 +199,29 @@ export default function QuestionDisplay({
   }
 
   return (
-    <div className={`min-h-screen bg-black p-4 font-mono text-sm ${colorMap[fontColor]}`}>
-      <div className="max-w-3xl mx-auto">
+    <div className={`min-h-screen bg-black p-6 font-mono text-sm ${colorMap[fontColor]}`}>
+      <div className="flex gap-4 items-start">
+        <div className="flex-1 max-w-2xl overflow-visible">
         {/* Encabezado */}
-        <div className={`flex justify-between items-center mb-3 pb-1 border-b ${getBorderClass(fontColor)} font-bold`}>
-          <div className="flex items-center gap-3">
-            <div>Q{progress.current.toString().padStart(2, '0')}/{progress.total}</div>
-            <div className="text-xs text-yellow-600">{getDifficultyLabel(question.difficulty)}</div>
-            {hasAnswered && <div className="text-xs text-green-400">✓ respondida</div>}
+        <div className={`mb-2 pb-1 border-b ${getBorderClass(fontColor)}`}>
+          <div className={`flex justify-between items-center font-bold mb-1`}>
+            <div className="flex items-center gap-2">
+              <div>Q{progress.current.toString().padStart(2, '0')}/{progress.total}</div>
+              <div className="text-xs text-yellow-600">{getDifficultyLabel(question.difficulty)}</div>
+              {hasAnswered && <div className="text-xs text-green-400">Respondida</div>}
+            </div>
+            <div>{Math.round((progress.current / progress.total) * 100)}%</div>
           </div>
-          <div>{Math.round((progress.current / progress.total) * 100)}%</div>
+          {currentTema && (
+            <div className="text-xs text-gray-400">
+              {currentTema.icono} {currentTema.nombre} - {currentTema.descripcion}
+            </div>
+          )}
         </div>
 
         {/* Barra de progreso */}
-        <div className="mb-3">
-          <div className="flex items-center gap-2">
+        <div className="mb-2">
+          <div className="flex items-center gap-1">
             <div className="flex-1 bg-gray-700 rounded h-2 overflow-hidden">
               <div
                 className={`h-full ${fontColor === 'white' ? 'bg-white' : fontColor === 'yellow' ? 'bg-yellow-300' : fontColor === 'cyan' ? 'bg-cyan-300' : fontColor === 'red' ? 'bg-red-300' : fontColor === 'purple' ? 'bg-purple-300' : fontColor === 'fuchsia' ? 'bg-fuchsia-300' : fontColor === 'gradient' ? 'bg-gradient-to-r from-pink-400 via-purple-400 to-blue-400' : 'bg-green-300'} transition-all`}
@@ -219,13 +233,13 @@ export default function QuestionDisplay({
         </div>
 
         {/* Pregunta */}
-        <div className="mb-4">
-          <div className="mb-4 leading-relaxed whitespace-pre-wrap text-white">
+        <div className="mb-2">
+          <div className="mb-2 leading-snug whitespace-pre-wrap text-white">
             {question.text}
           </div>
 
           {/* Opciones */}
-          <div className="space-y-1 mb-4">
+          <div className="space-y-0 mb-2">
             <AnswerButton
               label="a"
               text={question.options.a}
@@ -269,19 +283,43 @@ export default function QuestionDisplay({
           )}
         </div>
 
-        {/* Footer */}
-        <div className={`text-xs border-t ${getBorderClass(fontColor)} pt-2 ${getFooterColorClass(fontColor)}`}>
-          {!selectedOption ? (
-            <>
-              <div>A | S | D | F (seleccionar)</div>
-              <div className="mt-1">← ATRÁS | ADELANTE → | M (menú) | ESC (salir)</div>
-            </>
-          ) : (
-            <>
-              <div>↑ ↓ (cambiar) | ENTER (confirmar) | ESC (cancelar)</div>
-              <div className="mt-1">← ATRÁS | ADELANTE → | M (menú) | ESC (salir)</div>
-            </>
-          )}
+        {/* Footer con tema */}
+        {currentTema && !isLoading && (
+          <div className={`text-xs border-t ${getBorderClass(fontColor)} pt-1 mt-2`}>
+            <div className={getFooterColorClass(fontColor)}>
+              $ {currentTema.icono} {currentTema.nombre} - {currentTema.descripcion}
+            </div>
+          </div>
+        )}
+
+        </div>
+
+        {/* Panel derecho con cuadrícula de preguntas */}
+        <div className={`w-56 border-l ${getBorderClass(fontColor)} pl-4`}>
+          <div className="text-xs font-bold mb-2">PREGUNTAS</div>
+          <div className="grid grid-cols-6 gap-1">
+            {Array.from({ length: progress.total }).map((_, idx) => {
+              const isAnswered = idx in answers;
+              const isCurrent = idx === progress.current - 1;
+              return (
+                <button
+                  key={idx}
+                  onClick={() => isAnswered && onQuestionClick(idx)}
+                  disabled={!isAnswered && !isCurrent}
+                  className={`w-7 h-7 flex items-center justify-center text-xs font-bold border transition ${
+                    isCurrent
+                      ? `border-white ${getBorderClass(fontColor)} cursor-pointer hover:opacity-80`
+                      : isAnswered
+                      ? 'border-yellow-400 bg-yellow-900 bg-opacity-30 text-yellow-400 cursor-pointer hover:opacity-80'
+                      : 'border-gray-500 text-gray-500 cursor-not-allowed opacity-50'
+                  }`}
+                  title={isAnswered ? `Pregunta ${idx + 1}` : `Pregunta ${idx + 1} (no respondida)`}
+                >
+                  {idx + 1}
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>

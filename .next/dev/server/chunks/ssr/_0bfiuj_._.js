@@ -34,10 +34,10 @@ function AnswerButton({ label, text, onClick, disabled = false, color = 'text-gr
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
         onClick: onClick,
         disabled: disabled,
-        className: `w-full px-3 py-1 text-left transition font-mono bg-black ${isConfirmed ? 'bg-gray-700 bg-opacity-40 border border-gray-600 border-opacity-50' : isSelected ? 'bg-gray-700 bg-opacity-40' : 'hover:bg-gray-700 hover:bg-opacity-20'} ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`,
+        className: `w-full px-3 py-1 text-left transition font-mono bg-black text-sm ${isConfirmed ? 'bg-gray-700 bg-opacity-40 border border-gray-600 border-opacity-50' : isSelected ? 'bg-gray-700 bg-opacity-40' : 'hover:bg-gray-700 hover:bg-opacity-20'} ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'} flex items-start gap-2`,
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                className: `inline-block w-3 font-bold ${getLabelColor(label)}`,
+                className: `inline-block flex-shrink-0 font-bold ${getLabelColor(label)}`,
                 children: getCircle(label)
             }, void 0, false, {
                 fileName: "[project]/components/AnswerButton.tsx",
@@ -45,7 +45,7 @@ function AnswerButton({ label, text, onClick, disabled = false, color = 'text-gr
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                className: `${color} ml-2 font-bold`,
+                className: `${color} font-bold flex-shrink-0 min-w-fit`,
                 children: label.toUpperCase()
             }, void 0, false, {
                 fileName: "[project]/components/AnswerButton.tsx",
@@ -53,7 +53,7 @@ function AnswerButton({ label, text, onClick, disabled = false, color = 'text-gr
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                className: `${color} ml-3`,
+                className: `${color} break-words flex-grow`,
                 children: text
             }, void 0, false, {
                 fileName: "[project]/components/AnswerButton.tsx",
@@ -61,7 +61,7 @@ function AnswerButton({ label, text, onClick, disabled = false, color = 'text-gr
                 columnNumber: 7
             }, this),
             isSelected && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                className: `ml-auto float-right ${color}`,
+                className: `flex-shrink-0 ${color}`,
                 children: "✓"
             }, void 0, false, {
                 fileName: "[project]/components/AnswerButton.tsx",
@@ -131,12 +131,12 @@ const getFooterColorClass = (color)=>{
     };
     return map[color];
 };
-function QuestionDisplay({ question, progress, onAnswer, isLoading, currentAnswer, hasAnswered, selectedOption, confirmedAnswer }) {
-    const [fontColor, setFontColor] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('green');
+function QuestionDisplay({ question, progress, onAnswer, isLoading, currentAnswer, hasAnswered, selectedOption, confirmedAnswer, showMenu = false, menuMode = 'main', temas = [], currentDifficulty = 'MEDIA', answers = {}, onQuestionClick = ()=>{}, currentTema }) {
+    const [fontColor, setFontColor] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('white');
     const [mounted, setMounted] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     const { setTestInfo } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$TestContext$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useTestInfo"])();
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
-        const savedColor = localStorage.getItem('terminalFontColor') || 'green';
+        const savedColor = localStorage.getItem('terminalFontColor') || 'white';
         setFontColor(savedColor);
         setMounted(true);
     }, []);
@@ -174,250 +174,538 @@ function QuestionDisplay({ question, progress, onAnswer, isLoading, currentAnswe
         }
     };
     if (!mounted) return null;
-    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: `min-h-screen bg-black p-4 font-mono text-sm ${colorMap[fontColor]}`,
-        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "max-w-3xl mx-auto",
-            children: [
-                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: `flex justify-between items-center mb-3 pb-1 border-b ${getBorderClass(fontColor)} font-bold`,
-                    children: [
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "flex items-center gap-3",
-                            children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    children: [
-                                        "Q",
-                                        progress.current.toString().padStart(2, '0'),
-                                        "/",
-                                        progress.total
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "[project]/components/QuestionDisplay.tsx",
-                                    lineNumber: 128,
-                                    columnNumber: 13
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "text-xs text-yellow-600",
-                                    children: getDifficultyLabel(question.difficulty)
-                                }, void 0, false, {
-                                    fileName: "[project]/components/QuestionDisplay.tsx",
-                                    lineNumber: 129,
-                                    columnNumber: 13
-                                }, this),
-                                hasAnswered && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "text-xs text-green-400",
-                                    children: "✓ respondida"
-                                }, void 0, false, {
-                                    fileName: "[project]/components/QuestionDisplay.tsx",
-                                    lineNumber: 130,
-                                    columnNumber: 29
-                                }, this)
-                            ]
-                        }, void 0, true, {
-                            fileName: "[project]/components/QuestionDisplay.tsx",
-                            lineNumber: 127,
-                            columnNumber: 11
-                        }, this),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            children: [
-                                Math.round(progress.current / progress.total * 100),
-                                "%"
-                            ]
-                        }, void 0, true, {
-                            fileName: "[project]/components/QuestionDisplay.tsx",
-                            lineNumber: 132,
-                            columnNumber: 11
-                        }, this)
-                    ]
-                }, void 0, true, {
-                    fileName: "[project]/components/QuestionDisplay.tsx",
-                    lineNumber: 126,
-                    columnNumber: 9
-                }, this),
-                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "mb-3",
-                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "flex items-center gap-2",
+    if (showMenu) {
+        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            className: `min-h-screen bg-black p-6 font-mono text-sm ${colorMap[fontColor]}`,
+            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "max-w-3xl mx-auto",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: `flex justify-between items-center mb-6 pb-2 border-b ${getBorderClass(fontColor)} font-bold`,
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "flex-1 bg-gray-700 rounded h-2 overflow-hidden",
-                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: `h-full ${fontColor === 'white' ? 'bg-white' : fontColor === 'yellow' ? 'bg-yellow-300' : fontColor === 'cyan' ? 'bg-cyan-300' : fontColor === 'red' ? 'bg-red-300' : fontColor === 'purple' ? 'bg-purple-300' : fontColor === 'fuchsia' ? 'bg-fuchsia-300' : fontColor === 'gradient' ? 'bg-gradient-to-r from-pink-400 via-purple-400 to-blue-400' : 'bg-green-300'} transition-all`,
-                                    style: {
-                                        width: `${progress.current / progress.total * 100}%`
-                                    }
-                                }, void 0, false, {
-                                    fileName: "[project]/components/QuestionDisplay.tsx",
-                                    lineNumber: 139,
-                                    columnNumber: 15
-                                }, this)
+                                children: "MENÚ"
                             }, void 0, false, {
                                 fileName: "[project]/components/QuestionDisplay.tsx",
-                                lineNumber: 138,
+                                lineNumber: 148,
                                 columnNumber: 13
                             }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                className: "text-xs text-gray-400 min-w-[3rem]",
-                                children: [
-                                    Math.round(progress.current / progress.total * 100),
-                                    "%"
-                                ]
-                            }, void 0, true, {
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "text-xs text-yellow-600",
+                                children: "ESC (volver)"
+                            }, void 0, false, {
                                 fileName: "[project]/components/QuestionDisplay.tsx",
-                                lineNumber: 144,
+                                lineNumber: 149,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/QuestionDisplay.tsx",
-                        lineNumber: 137,
+                        lineNumber: 147,
                         columnNumber: 11
-                    }, this)
-                }, void 0, false, {
-                    fileName: "[project]/components/QuestionDisplay.tsx",
-                    lineNumber: 136,
-                    columnNumber: 9
-                }, this),
-                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "mb-4",
-                    children: [
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "mb-4 leading-relaxed whitespace-pre-wrap text-white",
-                            children: question.text
+                    }, this),
+                    menuMode === 'main' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "space-y-4",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "text-white mb-4",
+                                children: "Selecciona una opción:"
+                            }, void 0, false, {
+                                fileName: "[project]/components/QuestionDisplay.tsx",
+                                lineNumber: 154,
+                                columnNumber: 15
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "border border-gray-500 p-3 cursor-pointer hover:border-white",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "text-yellow-300",
+                                        children: "1. Dificultad"
+                                    }, void 0, false, {
+                                        fileName: "[project]/components/QuestionDisplay.tsx",
+                                        lineNumber: 156,
+                                        columnNumber: 17
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "text-xs text-gray-400 mt-1",
+                                        children: [
+                                            "Cambiar nivel de dificultad (actual: ",
+                                            currentDifficulty,
+                                            ")"
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/components/QuestionDisplay.tsx",
+                                        lineNumber: 157,
+                                        columnNumber: 17
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/components/QuestionDisplay.tsx",
+                                lineNumber: 155,
+                                columnNumber: 15
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "border border-gray-500 p-3 cursor-pointer hover:border-white",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "text-yellow-300",
+                                        children: "2. Otro Test"
+                                    }, void 0, false, {
+                                        fileName: "[project]/components/QuestionDisplay.tsx",
+                                        lineNumber: 160,
+                                        columnNumber: 17
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "text-xs text-gray-400 mt-1",
+                                        children: "Cambiar de test/materia"
+                                    }, void 0, false, {
+                                        fileName: "[project]/components/QuestionDisplay.tsx",
+                                        lineNumber: 161,
+                                        columnNumber: 17
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/components/QuestionDisplay.tsx",
+                                lineNumber: 159,
+                                columnNumber: 15
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/components/QuestionDisplay.tsx",
+                        lineNumber: 153,
+                        columnNumber: 13
+                    }, this),
+                    menuMode === 'difficulty' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "space-y-4",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "text-white mb-4",
+                                children: "Selecciona dificultad:"
+                            }, void 0, false, {
+                                fileName: "[project]/components/QuestionDisplay.tsx",
+                                lineNumber: 168,
+                                columnNumber: 15
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: `border p-3 cursor-pointer ${currentDifficulty === 'BAJA' ? 'border-green-300 bg-green-900 bg-opacity-20' : 'border-gray-500'}`,
+                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "text-green-300",
+                                    children: "1. BAJA"
+                                }, void 0, false, {
+                                    fileName: "[project]/components/QuestionDisplay.tsx",
+                                    lineNumber: 170,
+                                    columnNumber: 17
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "[project]/components/QuestionDisplay.tsx",
+                                lineNumber: 169,
+                                columnNumber: 15
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: `border p-3 cursor-pointer ${currentDifficulty === 'MEDIA' ? 'border-yellow-300 bg-yellow-900 bg-opacity-20' : 'border-gray-500'}`,
+                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "text-yellow-300",
+                                    children: "2. MEDIA"
+                                }, void 0, false, {
+                                    fileName: "[project]/components/QuestionDisplay.tsx",
+                                    lineNumber: 173,
+                                    columnNumber: 17
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "[project]/components/QuestionDisplay.tsx",
+                                lineNumber: 172,
+                                columnNumber: 15
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: `border p-3 cursor-pointer ${currentDifficulty === 'ALTA' ? 'border-red-300 bg-red-900 bg-opacity-20' : 'border-gray-500'}`,
+                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "text-red-300",
+                                    children: "3. ALTA"
+                                }, void 0, false, {
+                                    fileName: "[project]/components/QuestionDisplay.tsx",
+                                    lineNumber: 176,
+                                    columnNumber: 17
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "[project]/components/QuestionDisplay.tsx",
+                                lineNumber: 175,
+                                columnNumber: 15
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/components/QuestionDisplay.tsx",
+                        lineNumber: 167,
+                        columnNumber: 13
+                    }, this),
+                    menuMode === 'other-test' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "space-y-2",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "text-white mb-4",
+                                children: "Selecciona otro test:"
+                            }, void 0, false, {
+                                fileName: "[project]/components/QuestionDisplay.tsx",
+                                lineNumber: 183,
+                                columnNumber: 15
+                            }, this),
+                            temas.map((tema, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "border border-gray-500 p-2 cursor-pointer hover:border-white hover:bg-gray-900",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "text-cyan-300",
+                                            children: [
+                                                index + 1,
+                                                ". ",
+                                                tema.icono,
+                                                " ",
+                                                tema.nombre
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/components/QuestionDisplay.tsx",
+                                            lineNumber: 186,
+                                            columnNumber: 19
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "text-xs text-gray-400",
+                                            children: tema.descripcion
+                                        }, void 0, false, {
+                                            fileName: "[project]/components/QuestionDisplay.tsx",
+                                            lineNumber: 187,
+                                            columnNumber: 19
+                                        }, this)
+                                    ]
+                                }, tema.id, true, {
+                                    fileName: "[project]/components/QuestionDisplay.tsx",
+                                    lineNumber: 185,
+                                    columnNumber: 17
+                                }, this))
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/components/QuestionDisplay.tsx",
+                        lineNumber: 182,
+                        columnNumber: 13
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: `text-xs border-t ${getBorderClass(fontColor)} pt-2 mt-6 ${getFooterColorClass(fontColor)}`,
+                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            children: "ESC (volver al menú principal o test)"
                         }, void 0, false, {
                             fileName: "[project]/components/QuestionDisplay.tsx",
-                            lineNumber: 150,
-                            columnNumber: 11
-                        }, this),
+                            lineNumber: 194,
+                            columnNumber: 13
+                        }, this)
+                    }, void 0, false, {
+                        fileName: "[project]/components/QuestionDisplay.tsx",
+                        lineNumber: 193,
+                        columnNumber: 11
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/components/QuestionDisplay.tsx",
+                lineNumber: 146,
+                columnNumber: 9
+            }, this)
+        }, void 0, false, {
+            fileName: "[project]/components/QuestionDisplay.tsx",
+            lineNumber: 145,
+            columnNumber: 7
+        }, this);
+    }
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+        className: `min-h-screen bg-black p-6 font-mono text-sm ${colorMap[fontColor]}`,
+        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            className: "flex gap-4 items-start",
+            children: [
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "flex-1 max-w-2xl overflow-visible",
+                    children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "space-y-1 mb-4",
+                            className: `mb-2 pb-1 border-b ${getBorderClass(fontColor)}`,
                             children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$AnswerButton$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-                                    label: "a",
-                                    text: question.options.a,
-                                    onClick: ()=>onAnswer('a'),
-                                    disabled: isLoading,
-                                    color: colorMap[fontColor],
-                                    isSelected: currentAnswer === 'a',
-                                    isConfirmed: confirmedAnswer === 'a'
-                                }, void 0, false, {
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: `flex justify-between items-center font-bold mb-1`,
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "flex items-center gap-2",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    children: [
+                                                        "Q",
+                                                        progress.current.toString().padStart(2, '0'),
+                                                        "/",
+                                                        progress.total
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/components/QuestionDisplay.tsx",
+                                                    lineNumber: 209,
+                                                    columnNumber: 15
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "text-xs text-yellow-600",
+                                                    children: getDifficultyLabel(question.difficulty)
+                                                }, void 0, false, {
+                                                    fileName: "[project]/components/QuestionDisplay.tsx",
+                                                    lineNumber: 210,
+                                                    columnNumber: 15
+                                                }, this),
+                                                hasAnswered && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "text-xs text-green-400",
+                                                    children: "Respondida"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/components/QuestionDisplay.tsx",
+                                                    lineNumber: 211,
+                                                    columnNumber: 31
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/components/QuestionDisplay.tsx",
+                                            lineNumber: 208,
+                                            columnNumber: 13
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            children: [
+                                                Math.round(progress.current / progress.total * 100),
+                                                "%"
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/components/QuestionDisplay.tsx",
+                                            lineNumber: 213,
+                                            columnNumber: 13
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
                                     fileName: "[project]/components/QuestionDisplay.tsx",
-                                    lineNumber: 156,
-                                    columnNumber: 13
+                                    lineNumber: 207,
+                                    columnNumber: 11
                                 }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$AnswerButton$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-                                    label: "s",
-                                    text: question.options.s,
-                                    onClick: ()=>onAnswer('s'),
-                                    disabled: isLoading,
-                                    color: colorMap[fontColor],
-                                    isSelected: currentAnswer === 's',
-                                    isConfirmed: confirmedAnswer === 's'
-                                }, void 0, false, {
+                                currentTema && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "text-xs text-gray-400",
+                                    children: [
+                                        currentTema.icono,
+                                        " ",
+                                        currentTema.nombre,
+                                        " - ",
+                                        currentTema.descripcion
+                                    ]
+                                }, void 0, true, {
                                     fileName: "[project]/components/QuestionDisplay.tsx",
-                                    lineNumber: 165,
-                                    columnNumber: 13
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$AnswerButton$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-                                    label: "d",
-                                    text: question.options.d,
-                                    onClick: ()=>onAnswer('d'),
-                                    disabled: isLoading,
-                                    color: colorMap[fontColor],
-                                    isSelected: currentAnswer === 'd',
-                                    isConfirmed: confirmedAnswer === 'd'
-                                }, void 0, false, {
-                                    fileName: "[project]/components/QuestionDisplay.tsx",
-                                    lineNumber: 174,
-                                    columnNumber: 13
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$AnswerButton$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-                                    label: "f",
-                                    text: question.options.f,
-                                    onClick: ()=>onAnswer('f'),
-                                    disabled: isLoading,
-                                    color: colorMap[fontColor],
-                                    isSelected: currentAnswer === 'f',
-                                    isConfirmed: confirmedAnswer === 'f'
-                                }, void 0, false, {
-                                    fileName: "[project]/components/QuestionDisplay.tsx",
-                                    lineNumber: 183,
+                                    lineNumber: 216,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/QuestionDisplay.tsx",
-                            lineNumber: 155,
-                            columnNumber: 11
+                            lineNumber: 206,
+                            columnNumber: 9
                         }, this),
-                        isLoading && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "text-yellow-600",
-                            children: "$ verificando respuesta..."
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "mb-2",
+                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "flex items-center gap-1",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "flex-1 bg-gray-700 rounded h-2 overflow-hidden",
+                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: `h-full ${fontColor === 'white' ? 'bg-white' : fontColor === 'yellow' ? 'bg-yellow-300' : fontColor === 'cyan' ? 'bg-cyan-300' : fontColor === 'red' ? 'bg-red-300' : fontColor === 'purple' ? 'bg-purple-300' : fontColor === 'fuchsia' ? 'bg-fuchsia-300' : fontColor === 'gradient' ? 'bg-gradient-to-r from-pink-400 via-purple-400 to-blue-400' : 'bg-green-300'} transition-all`,
+                                            style: {
+                                                width: `${progress.current / progress.total * 100}%`
+                                            }
+                                        }, void 0, false, {
+                                            fileName: "[project]/components/QuestionDisplay.tsx",
+                                            lineNumber: 226,
+                                            columnNumber: 15
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "[project]/components/QuestionDisplay.tsx",
+                                        lineNumber: 225,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        className: "text-xs text-gray-400 min-w-[3rem]",
+                                        children: [
+                                            Math.round(progress.current / progress.total * 100),
+                                            "%"
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/components/QuestionDisplay.tsx",
+                                        lineNumber: 231,
+                                        columnNumber: 13
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/components/QuestionDisplay.tsx",
+                                lineNumber: 224,
+                                columnNumber: 11
+                            }, this)
                         }, void 0, false, {
                             fileName: "[project]/components/QuestionDisplay.tsx",
-                            lineNumber: 195,
-                            columnNumber: 13
+                            lineNumber: 223,
+                            columnNumber: 9
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "mb-2",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "mb-2 leading-snug whitespace-pre-wrap text-white",
+                                    children: question.text
+                                }, void 0, false, {
+                                    fileName: "[project]/components/QuestionDisplay.tsx",
+                                    lineNumber: 237,
+                                    columnNumber: 11
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "space-y-0 mb-2",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$AnswerButton$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
+                                            label: "a",
+                                            text: question.options.a,
+                                            onClick: ()=>onAnswer('a'),
+                                            disabled: isLoading,
+                                            color: colorMap[fontColor],
+                                            isSelected: currentAnswer === 'a',
+                                            isConfirmed: confirmedAnswer === 'a'
+                                        }, void 0, false, {
+                                            fileName: "[project]/components/QuestionDisplay.tsx",
+                                            lineNumber: 243,
+                                            columnNumber: 13
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$AnswerButton$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
+                                            label: "s",
+                                            text: question.options.s,
+                                            onClick: ()=>onAnswer('s'),
+                                            disabled: isLoading,
+                                            color: colorMap[fontColor],
+                                            isSelected: currentAnswer === 's',
+                                            isConfirmed: confirmedAnswer === 's'
+                                        }, void 0, false, {
+                                            fileName: "[project]/components/QuestionDisplay.tsx",
+                                            lineNumber: 252,
+                                            columnNumber: 13
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$AnswerButton$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
+                                            label: "d",
+                                            text: question.options.d,
+                                            onClick: ()=>onAnswer('d'),
+                                            disabled: isLoading,
+                                            color: colorMap[fontColor],
+                                            isSelected: currentAnswer === 'd',
+                                            isConfirmed: confirmedAnswer === 'd'
+                                        }, void 0, false, {
+                                            fileName: "[project]/components/QuestionDisplay.tsx",
+                                            lineNumber: 261,
+                                            columnNumber: 13
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$AnswerButton$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
+                                            label: "f",
+                                            text: question.options.f,
+                                            onClick: ()=>onAnswer('f'),
+                                            disabled: isLoading,
+                                            color: colorMap[fontColor],
+                                            isSelected: currentAnswer === 'f',
+                                            isConfirmed: confirmedAnswer === 'f'
+                                        }, void 0, false, {
+                                            fileName: "[project]/components/QuestionDisplay.tsx",
+                                            lineNumber: 270,
+                                            columnNumber: 13
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/components/QuestionDisplay.tsx",
+                                    lineNumber: 242,
+                                    columnNumber: 11
+                                }, this),
+                                isLoading && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "text-yellow-600",
+                                    children: "$ verificando respuesta..."
+                                }, void 0, false, {
+                                    fileName: "[project]/components/QuestionDisplay.tsx",
+                                    lineNumber: 282,
+                                    columnNumber: 13
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/components/QuestionDisplay.tsx",
+                            lineNumber: 236,
+                            columnNumber: 9
+                        }, this),
+                        currentTema && !isLoading && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: `text-xs border-t ${getBorderClass(fontColor)} pt-1 mt-2`,
+                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: getFooterColorClass(fontColor),
+                                children: [
+                                    "$ ",
+                                    currentTema.icono,
+                                    " ",
+                                    currentTema.nombre,
+                                    " - ",
+                                    currentTema.descripcion
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/components/QuestionDisplay.tsx",
+                                lineNumber: 289,
+                                columnNumber: 13
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "[project]/components/QuestionDisplay.tsx",
+                            lineNumber: 288,
+                            columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/components/QuestionDisplay.tsx",
-                    lineNumber: 149,
+                    lineNumber: 204,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: `text-xs border-t ${getBorderClass(fontColor)} pt-2 ${getFooterColorClass(fontColor)}`,
-                    children: !selectedOption ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                children: "A | S | D | F (seleccionar)"
-                            }, void 0, false, {
-                                fileName: "[project]/components/QuestionDisplay.tsx",
-                                lineNumber: 203,
-                                columnNumber: 15
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "mt-1",
-                                children: "← ATRÁS | ADELANTE → | ESC (salir)"
-                            }, void 0, false, {
-                                fileName: "[project]/components/QuestionDisplay.tsx",
-                                lineNumber: 204,
-                                columnNumber: 15
-                            }, this)
-                        ]
-                    }, void 0, true) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                children: "↑ ↓ (cambiar) | ENTER (confirmar) | ESC (cancelar)"
-                            }, void 0, false, {
-                                fileName: "[project]/components/QuestionDisplay.tsx",
-                                lineNumber: 208,
-                                columnNumber: 15
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "mt-1",
-                                children: "← ATRÁS | ADELANTE → | ESC (salir)"
-                            }, void 0, false, {
-                                fileName: "[project]/components/QuestionDisplay.tsx",
-                                lineNumber: 209,
-                                columnNumber: 15
-                            }, this)
-                        ]
-                    }, void 0, true)
-                }, void 0, false, {
+                    className: `w-56 border-l ${getBorderClass(fontColor)} pl-4`,
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "text-xs font-bold mb-2",
+                            children: "PREGUNTAS"
+                        }, void 0, false, {
+                            fileName: "[project]/components/QuestionDisplay.tsx",
+                            lineNumber: 299,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "grid grid-cols-6 gap-1",
+                            children: Array.from({
+                                length: progress.total
+                            }).map((_, idx)=>{
+                                const isAnswered = idx in answers;
+                                const isCurrent = idx === progress.current - 1;
+                                return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                    onClick: ()=>isAnswered && onQuestionClick(idx),
+                                    disabled: !isAnswered && !isCurrent,
+                                    className: `w-7 h-7 flex items-center justify-center text-xs font-bold border transition ${isCurrent ? `border-white ${getBorderClass(fontColor)} cursor-pointer hover:opacity-80` : isAnswered ? 'border-yellow-400 bg-yellow-900 bg-opacity-30 text-yellow-400 cursor-pointer hover:opacity-80' : 'border-gray-500 text-gray-500 cursor-not-allowed opacity-50'}`,
+                                    title: isAnswered ? `Pregunta ${idx + 1}` : `Pregunta ${idx + 1} (no respondida)`,
+                                    children: idx + 1
+                                }, idx, false, {
+                                    fileName: "[project]/components/QuestionDisplay.tsx",
+                                    lineNumber: 305,
+                                    columnNumber: 17
+                                }, this);
+                            })
+                        }, void 0, false, {
+                            fileName: "[project]/components/QuestionDisplay.tsx",
+                            lineNumber: 300,
+                            columnNumber: 11
+                        }, this)
+                    ]
+                }, void 0, true, {
                     fileName: "[project]/components/QuestionDisplay.tsx",
-                    lineNumber: 200,
+                    lineNumber: 298,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/components/QuestionDisplay.tsx",
-            lineNumber: 124,
+            lineNumber: 203,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/components/QuestionDisplay.tsx",
-        lineNumber: 123,
+        lineNumber: 202,
         columnNumber: 5
     }, this);
 }
@@ -453,11 +741,21 @@ function TestSessionPage({ params }) {
     const [answers, setAnswers] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])({});
     const [selectedOption, setSelectedOption] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
     const [confirmedAnswer, setConfirmedAnswer] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
+    const [difficulty, setDifficulty] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('MEDIA');
+    const [showMenu, setShowMenu] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [menuMode, setMenuMode] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('main');
+    const [temas, setTemas] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])([]);
+    const [userName, setUserName] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('');
     // Resolver params
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
         params.then((p)=>{
             setTestIdState(p.testId);
             setSessionIdState(p.sessionId);
+            // Recuperar userName desde localStorage
+            const sessionData = JSON.parse(localStorage.getItem(`session_${p.sessionId}`) || '{}');
+            if (sessionData.userName) {
+                setUserName(sessionData.userName);
+            }
         });
     }, [
         params
@@ -465,16 +763,35 @@ function TestSessionPage({ params }) {
     // Limpiar confirmedAnswer y selectedOption cuando cambia de pregunta
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
         setSelectedOption(null);
-        // Si ya respondiste esta pregunta, mostrar la respuesta anterior como confirmada
-        if (currentQuestionIndex in answers) {
-            setConfirmedAnswer(answers[currentQuestionIndex]);
-        } else {
+        setConfirmedAnswer(null);
+    }, [
+        currentQuestionIndex
+    ]);
+    // Resetear índice cuando se carga un nuevo test
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
+        if (testIdState && sessionIdState) {
+            setCurrentQuestionIndex(0);
+            setSelectedOption(null);
             setConfirmedAnswer(null);
         }
     }, [
-        currentQuestionIndex,
-        answers
+        testIdState,
+        sessionIdState
     ]);
+    // Cargar temas
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
+        const fetchTemas = async ()=>{
+            try {
+                const response = await fetch('/data/temas.json');
+                if (!response.ok) throw new Error('Temas no encontrados');
+                const data = await response.json();
+                setTemas(data);
+            } catch (err) {
+                console.error('Error cargando temas:', err);
+            }
+        };
+        fetchTemas();
+    }, []);
     // Cargar datos de la sesión
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
         if (!testIdState || !sessionIdState) return;
@@ -483,14 +800,8 @@ function TestSessionPage({ params }) {
                 const response = await fetch(`/data/preguntas-${testIdState}.json`);
                 if (!response.ok) throw new Error('Preguntas no encontradas');
                 const data = await response.json();
-                // Filtrar por dificultad y limitar a 10
-                const difficultyMap = {
-                    'BAJA': 1,
-                    'MEDIA': 2,
-                    'ALTA': 3
-                };
-                const selectedDifficulty = difficultyMap['MEDIA']; // Por defecto MEDIA
-                const filteredQuestions = data.filter((q)=>q.dificultad === selectedDifficulty).slice(0, 10);
+                // Cargar todas las 30 preguntas sin filtrar por dificultad
+                const filteredQuestions = data;
                 // Transformar respuesta al formato esperado
                 const sampleQuestions = filteredQuestions.map((q)=>({
                         questionId: q.id,
@@ -508,7 +819,7 @@ function TestSessionPage({ params }) {
                     sessionId: sessionIdState,
                     testId: parseInt(testIdState),
                     userName: 'Usuario',
-                    difficulty: 'MEDIA',
+                    difficulty: difficulty,
                     startTime: Date.now(),
                     totalQuestions: sampleQuestions.length,
                     currentQuestion: 1,
@@ -517,6 +828,8 @@ function TestSessionPage({ params }) {
                     completed: false
                 };
                 setSessionData(initialData);
+                setCurrentQuestionIndex(0);
+                setAnswers({});
                 setLoading(false);
             } catch (err) {
                 console.error('Error cargando preguntas:', err);
@@ -527,8 +840,12 @@ function TestSessionPage({ params }) {
         fetchQuestions();
     }, [
         testIdState,
-        sessionIdState
+        sessionIdState,
+        difficulty
     ]);
+    const handleQuestionClick = (index)=>{
+        setCurrentQuestionIndex(index);
+    };
     const handleAnswer = async (answer, isConfirmed = false)=>{
         if (!sessionData || !testIdState || !sessionIdState) return;
         const currentQuestion = sessionData.questions[currentQuestionIndex];
@@ -550,14 +867,18 @@ function TestSessionPage({ params }) {
             // Verificar localmente si la respuesta es correcta
             const isCorrect = answer === currentQuestion.correctAnswer;
             // Guardar la respuesta en localStorage para los resultados
-            const answersData = JSON.parse(localStorage.getItem(`test_${sessionIdState}`) || '{}');
-            answersData[currentQuestion.questionId] = {
+            const answersData = JSON.parse(localStorage.getItem(`test_${sessionIdState}`) || '{"answers":{}}');
+            if (!answersData.answers) answersData.answers = {};
+            answersData.answers[currentQuestion.questionId] = {
                 answer,
                 isCorrect,
-                concept: 'Concepto'
+                text: currentQuestion.text,
+                options: currentQuestion.options,
+                correctAnswer: currentQuestion.correctAnswer
             };
+            if (!answersData.userName) answersData.userName = userName;
             localStorage.setItem(`test_${sessionIdState}`, JSON.stringify(answersData));
-            // Mostrar feedback por 1.5 segundos, luego ir a resultados si es la última pregunta
+            // Mostrar feedback por 1 segundo, luego ir a resultados si es la última pregunta
             setTimeout(()=>{
                 if (currentQuestionIndex < sessionData.questions.length - 1) {
                     setCurrentQuestionIndex(currentQuestionIndex + 1);
@@ -565,7 +886,7 @@ function TestSessionPage({ params }) {
                     // Si es la última pregunta, ir a resultados
                     router.push(`/results/${testIdState}/${sessionIdState}`);
                 }
-            }, 1500);
+            }, 1000);
         } catch (err) {
             console.error('Error:', err);
             setError('Error al procesar respuesta');
@@ -592,6 +913,45 @@ function TestSessionPage({ params }) {
         };
         const handleKeyPress = (e)=>{
             const key = e.key.toLowerCase();
+            if (showMenu) {
+                // Navegación dentro del menú
+                if (menuMode === 'main') {
+                    if (key === 'arrowup' || key === 'arrowdown') {
+                        e.preventDefault();
+                    } else if (key === '1') {
+                        setMenuMode('difficulty');
+                    } else if (key === '2') {
+                        setMenuMode('other-test');
+                    } else if (key === 'escape') {
+                        setShowMenu(false);
+                    }
+                } else if (menuMode === 'difficulty') {
+                    if (key === '1') {
+                        setDifficulty('BAJA');
+                        setShowMenu(false);
+                    } else if (key === '2') {
+                        setDifficulty('MEDIA');
+                        setShowMenu(false);
+                    } else if (key === '3') {
+                        setDifficulty('ALTA');
+                        setShowMenu(false);
+                    } else if (key === 'escape') {
+                        setMenuMode('main');
+                    }
+                } else if (menuMode === 'other-test') {
+                    if (key === 'escape') {
+                        setMenuMode('main');
+                    } else if (key >= '1' && key <= '9') {
+                        const index = parseInt(key) - 1;
+                        const tema = temas[index];
+                        if (tema && userName) {
+                            // Ir directamente a seleccionar dificultad del nuevo test, sin reiniciar configuración
+                            router.push(`/tests/${tema.id}?userName=${encodeURIComponent(userName)}`);
+                        }
+                    }
+                }
+                return;
+            }
             if ([
                 'a',
                 's',
@@ -626,6 +986,10 @@ function TestSessionPage({ params }) {
                         router.push(`/results/${testIdState}/${sessionIdState}`);
                     }
                 }
+            } else if (key === 'm') {
+                e.preventDefault();
+                setShowMenu(true);
+                setMenuMode('main');
             } else if (key === 'escape') {
                 router.push('/');
             }
@@ -639,7 +1003,10 @@ function TestSessionPage({ params }) {
         sessionIdState,
         router,
         answers,
-        selectedOption
+        selectedOption,
+        showMenu,
+        menuMode,
+        temas
     ]);
     if (loading) {
         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -651,17 +1018,17 @@ function TestSessionPage({ params }) {
                     children: "Cargando test..."
                 }, void 0, false, {
                     fileName: "[project]/app/tests/[testId]/session/[sessionId]/page.tsx",
-                    lineNumber: 219,
+                    lineNumber: 304,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/app/tests/[testId]/session/[sessionId]/page.tsx",
-                lineNumber: 218,
+                lineNumber: 303,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/app/tests/[testId]/session/[sessionId]/page.tsx",
-            lineNumber: 217,
+            lineNumber: 302,
             columnNumber: 7
         }, this);
     }
@@ -676,7 +1043,7 @@ function TestSessionPage({ params }) {
                         children: error
                     }, void 0, false, {
                         fileName: "[project]/app/tests/[testId]/session/[sessionId]/page.tsx",
-                        lineNumber: 229,
+                        lineNumber: 314,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -685,18 +1052,18 @@ function TestSessionPage({ params }) {
                         children: "Volver al inicio"
                     }, void 0, false, {
                         fileName: "[project]/app/tests/[testId]/session/[sessionId]/page.tsx",
-                        lineNumber: 230,
+                        lineNumber: 315,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/tests/[testId]/session/[sessionId]/page.tsx",
-                lineNumber: 228,
+                lineNumber: 313,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/app/tests/[testId]/session/[sessionId]/page.tsx",
-            lineNumber: 227,
+            lineNumber: 312,
             columnNumber: 7
         }, this);
     }
@@ -711,7 +1078,7 @@ function TestSessionPage({ params }) {
                         children: "No se pudieron cargar las preguntas"
                     }, void 0, false, {
                         fileName: "[project]/app/tests/[testId]/session/[sessionId]/page.tsx",
-                        lineNumber: 245,
+                        lineNumber: 330,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -720,18 +1087,18 @@ function TestSessionPage({ params }) {
                         children: "Volver al inicio"
                     }, void 0, false, {
                         fileName: "[project]/app/tests/[testId]/session/[sessionId]/page.tsx",
-                        lineNumber: 246,
+                        lineNumber: 331,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/tests/[testId]/session/[sessionId]/page.tsx",
-                lineNumber: 244,
+                lineNumber: 329,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/app/tests/[testId]/session/[sessionId]/page.tsx",
-            lineNumber: 243,
+            lineNumber: 328,
             columnNumber: 7
         }, this);
     }
@@ -746,20 +1113,21 @@ function TestSessionPage({ params }) {
                     children: "Test completado"
                 }, void 0, false, {
                     fileName: "[project]/app/tests/[testId]/session/[sessionId]/page.tsx",
-                    lineNumber: 263,
+                    lineNumber: 348,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/app/tests/[testId]/session/[sessionId]/page.tsx",
-                lineNumber: 262,
+                lineNumber: 347,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/app/tests/[testId]/session/[sessionId]/page.tsx",
-            lineNumber: 261,
+            lineNumber: 346,
             columnNumber: 7
         }, this);
     }
+    const currentTema = testIdState ? temas.find((t)=>t.id === parseInt(testIdState)) : undefined;
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$QuestionDisplay$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
         question: currentQuestion,
         progress: {
@@ -771,10 +1139,17 @@ function TestSessionPage({ params }) {
         currentAnswer: selectedOption,
         hasAnswered: currentQuestionIndex in answers,
         selectedOption: selectedOption,
-        confirmedAnswer: confirmedAnswer
+        confirmedAnswer: confirmedAnswer,
+        showMenu: showMenu,
+        menuMode: menuMode,
+        temas: temas,
+        currentDifficulty: difficulty,
+        answers: answers,
+        onQuestionClick: handleQuestionClick,
+        currentTema: currentTema
     }, void 0, false, {
         fileName: "[project]/app/tests/[testId]/session/[sessionId]/page.tsx",
-        lineNumber: 270,
+        lineNumber: 357,
         columnNumber: 5
     }, this);
 }

@@ -54,8 +54,8 @@ export default function TestSelector() {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [level, setLevel] = useState<MenuLevel>('fontColor');
   const [currentCategory, setCurrentCategory] = useState<string>('');
-  const [selectedFontColor, setSelectedFontColor] = useState<ColorOption>('green');
-  const [selectedEmphasisColor, setSelectedEmphasisColor] = useState<ColorOption>('green');
+  const [selectedFontColor, setSelectedFontColor] = useState<ColorOption>('white');
+  const [selectedEmphasisColor, setSelectedEmphasisColor] = useState<ColorOption>('yellow');
 
   const categories = [
     { id: 'BaseDatos', name: 'BBDD' },
@@ -77,12 +77,20 @@ export default function TestSelector() {
       const temas = await response.json();
 
       // Transformar temas al formato esperado por el frontend
-      const transformedTests: Test[] = temas.map((tema: any) => ({
-        id: tema.id,
-        name: tema.nombre,
-        category: 'BaseDatos', // Todos los temas van a BaseDatos por ahora
-        totalQuestions: 30,
-      }));
+      const transformedTests: Test[] = temas.map((tema: any) => {
+        // Asignar temas a categorías según el ID
+        let category = 'BaseDatos';
+        if (tema.id >= 6) {
+          category = 'Programación/Teoría';
+        }
+
+        return {
+          id: tema.id,
+          name: tema.nombre,
+          category: category,
+          totalQuestions: 30,
+        };
+      });
 
       setTests(transformedTests);
     } catch (err) {

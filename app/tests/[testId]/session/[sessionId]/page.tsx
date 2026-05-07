@@ -37,25 +37,36 @@ export default function TestSessionPage({
   const [showMenu, setShowMenu] = useState(false);
   const [menuMode, setMenuMode] = useState<'main' | 'difficulty' | 'other-test'>('main');
   const [temas, setTemas] = useState<Tema[]>([]);
+  const [userName, setUserName] = useState<string>('');
 
   // Resolver params
   useEffect(() => {
     params.then((p) => {
       setTestIdState(p.testId);
       setSessionIdState(p.sessionId);
+
+      // Recuperar userName desde localStorage
+      const sessionData = JSON.parse(localStorage.getItem(`session_${p.sessionId}`) || '{}');
+      if (sessionData.userName) {
+        setUserName(sessionData.userName);
+      }
     });
   }, [params]);
 
   // Limpiar confirmedAnswer y selectedOption cuando cambia de pregunta
   useEffect(() => {
     setSelectedOption(null);
-    // Si ya respondiste esta pregunta, mostrar la respuesta anterior como confirmada
-    if (currentQuestionIndex in answers) {
-      setConfirmedAnswer(answers[currentQuestionIndex]);
-    } else {
+    setConfirmedAnswer(null);
+  }, [currentQuestionIndex]);
+
+  // Resetear índice cuando se carga un nuevo test
+  useEffect(() => {
+    if (testIdState && sessionIdState) {
+      setCurrentQuestionIndex(0);
+      setSelectedOption(null);
       setConfirmedAnswer(null);
     }
-  }, [currentQuestionIndex, answers]);
+  }, [testIdState, sessionIdState]);
 
   // Cargar temas
   useEffect(() => {
@@ -83,15 +94,8 @@ export default function TestSessionPage({
 
         const data = await response.json();
 
-        // Filtrar por dificultad y limitar a 10
-        const difficultyMap: Record<string, number> = {
-          'BAJA': 1,
-          'MEDIA': 2,
-          'ALTA': 3,
-        };
-
-        const selectedDifficulty = difficultyMap[difficulty];
-        const filteredQuestions = data.filter((q: any) => q.dificultad === selectedDifficulty).slice(0, 10);
+        // Cargar todas las 30 preguntas sin filtrar por dificultad
+        const filteredQuestions = data;
 
         // Transformar respuesta al formato esperado
         const sampleQuestions: Pregunta[] = filteredQuestions.map((q: any) => ({
@@ -134,6 +138,10 @@ export default function TestSessionPage({
     fetchQuestions();
   }, [testIdState, sessionIdState, difficulty]);
 
+  const handleQuestionClick = (index: number) => {
+    setCurrentQuestionIndex(index);
+  };
+
   const handleAnswer = async (answer: 'a' | 's' | 'd' | 'f', isConfirmed = false) => {
     if (!sessionData || !testIdState || !sessionIdState) return;
 
@@ -161,15 +169,19 @@ export default function TestSessionPage({
       const isCorrect = answer === currentQuestion.correctAnswer;
 
       // Guardar la respuesta en localStorage para los resultados
-      const answersData = JSON.parse(localStorage.getItem(`test_${sessionIdState}`) || '{}');
-      answersData[currentQuestion.questionId] = {
+      const answersData = JSON.parse(localStorage.getItem(`test_${sessionIdState}`) || '{"answers":{}}');
+      if (!answersData.answers) answersData.answers = {};
+      answersData.answers[currentQuestion.questionId] = {
         answer,
         isCorrect,
-        concept: 'Concepto'
+        text: currentQuestion.text,
+        options: currentQuestion.options,
+        correctAnswer: currentQuestion.correctAnswer
       };
+      if (!answersData.userName) answersData.userName = userName;
       localStorage.setItem(`test_${sessionIdState}`, JSON.stringify(answersData));
 
-      // Mostrar feedback por 1.5 segundos, luego ir a resultados si es la última pregunta
+      // Mostrar feedback por 1 segundo, luego ir a resultados si es la última pregunta
       setTimeout(() => {
         if (currentQuestionIndex < sessionData.questions.length - 1) {
           setCurrentQuestionIndex(currentQuestionIndex + 1);
@@ -177,7 +189,7 @@ export default function TestSessionPage({
           // Si es la última pregunta, ir a resultados
           router.push(`/results/${testIdState}/${sessionIdState}`);
         }
-      }, 1500);
+      }, 1000);
     } catch (err) {
       console.error('Error:', err);
       setError('Error al procesar respuesta');
@@ -234,8 +246,9 @@ export default function TestSessionPage({
           } else if (key >= '1' && key <= '9') {
             const index = parseInt(key) - 1;
             const tema = temas[index];
-            if (tema) {
-              router.push(`/tests/${tema.id}/session/${sessionIdState}`);
+            if (tema && userName) {
+              // Ir directamente a seleccionar dificultad del nuevo test, sin reiniciar configuración
+              router.push(`/tests/${tema.id}?userName=${encodeURIComponent(userName)}`);
             }
           }
         }
@@ -338,6 +351,8 @@ export default function TestSessionPage({
     );
   }
 
+  const currentTema = testIdState ? temas.find(t => t.id === parseInt(testIdState)) : undefined;
+
   return (
     <QuestionDisplay
       question={currentQuestion}
@@ -355,6 +370,9 @@ export default function TestSessionPage({
       menuMode={menuMode}
       temas={temas}
       currentDifficulty={difficulty}
+      answers={answers}
+      onQuestionClick={handleQuestionClick}
+      currentTema={currentTema}
     />
   );
 }

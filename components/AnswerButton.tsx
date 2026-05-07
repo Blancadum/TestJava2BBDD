@@ -37,14 +37,14 @@ export default function AnswerButton({
     <button
       onClick={onClick}
       disabled={disabled}
-      className={`w-full px-3 py-1 text-left transition font-mono bg-black ${isConfirmed ? 'bg-gray-700 bg-opacity-40 border border-gray-600 border-opacity-50' : isSelected ? 'bg-gray-700 bg-opacity-40' : 'hover:bg-gray-700 hover:bg-opacity-20'} ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+      className={`w-full px-3 py-1 text-left transition font-mono bg-black text-sm ${isConfirmed ? 'bg-gray-700 bg-opacity-40 border border-gray-600 border-opacity-50' : isSelected ? 'bg-gray-700 bg-opacity-40' : 'hover:bg-gray-700 hover:bg-opacity-20'} ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'} flex items-start gap-2`}
     >
-      <span className={`inline-block w-3 font-bold ${getLabelColor(label)}`}>
+      <span className={`inline-block flex-shrink-0 font-bold ${getLabelColor(label)}`}>
         {getCircle(label)}
       </span>
-      <span className={`${color} ml-2 font-bold`}>{label.toUpperCase()}</span>
-      <span className={`${color} ml-3`}>{text}</span>
-      {isSelected && <span className={`ml-auto float-right ${color}`}>✓</span>}
+      <span className={`${color} font-bold flex-shrink-0 min-w-fit`}>{label.toUpperCase()}</span>
+      <span className={`${color} break-words flex-grow`}>{text}</span>
+      {isSelected && <span className={`flex-shrink-0 ${color}`}>✓</span>}
     </button>
   );
 }

@@ -43,8 +43,8 @@ export default function SelectDifficultyPage({
   const userName = searchParams.get('userName') || 'Anónimo';
   const [testId, setTestId] = useState<string | null>(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [fontColor, setFontColor] = useState<ColorOption>('green');
-  const [emphasisColor, setEmphasisColor] = useState<ColorOption>('green');
+  const [fontColor, setFontColor] = useState<ColorOption>('white');
+  const [emphasisColor, setEmphasisColor] = useState<ColorOption>('yellow');
 
   useEffect(() => {
     params.then((p) => setTestId(p.testId));

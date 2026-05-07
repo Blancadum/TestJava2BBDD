@@ -9,6 +9,13 @@ import { useEffect, useState } from 'react';
 import { TestResult } from '@/lib/types';
 import ResultsDisplay from '@/components/ResultsDisplay';
 
+interface Tema {
+  id: number;
+  nombre: string;
+  descripcion: string;
+  icono: string;
+}
+
 export default function ResultsPage({
   params,
 }: {
@@ -16,17 +23,30 @@ export default function ResultsPage({
 }) {
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [testId, setTestId] = useState<string | null>(null);
+  const [results, setResults] = useState<TestResult | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [currentTema, setCurrentTema] = useState<Tema | null>(null);
 
   useEffect(() => {
     params.then((p) => {
       setSessionId(p.sessionId);
       setTestId(p.testId);
+
+      // Cargar tema actual
+      const loadTema = async () => {
+        try {
+          const response = await fetch('/data/temas.json');
+          const temas = await response.json();
+          const tema = temas.find((t: Tema) => t.id === parseInt(p.testId));
+          if (tema) setCurrentTema(tema);
+        } catch (err) {
+          console.error('Error cargando tema:', err);
+        }
+      };
+      loadTema();
     });
   }, [params]);
-
-  const [results, setResults] = useState<TestResult | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     // Obtener resultados del servidor
@@ -35,7 +55,10 @@ export default function ResultsPage({
 
       try {
         // Obtener respuestas desde localStorage
-        const answersData = JSON.parse(localStorage.getItem(`test_${sessionId}`) || '{}');
+        const testData = JSON.parse(localStorage.getItem(`test_${sessionId}`) || '{"answers":{}}');
+        const answersData = testData.answers || {};
+        const userName = testData.userName || 'Usuario';
+
         const correctAnswers = Object.values(answersData).filter((a: any) => a.isCorrect).length;
         const totalQuestions = Object.keys(answersData).length;
         const percentage = totalQuestions > 0 ? Math.round((correctAnswers / totalQuestions) * 100) : 0;
@@ -47,7 +70,7 @@ export default function ResultsPage({
         const transformedResult: TestResult = {
           sessionId: sessionId || '',
           testId: parseInt(testId || '0'),
-          userName: 'Usuario',
+          userName: userName,
           score: correctAnswers,
           totalQuestions: totalQuestions,
           percentage: percentage,
@@ -56,6 +79,10 @@ export default function ResultsPage({
           suggestions: {},
           completedAt: Date.now(),
         };
+
+        // Guardar también las respuestas para mostrarlas
+        localStorage.setItem(`results_${sessionId}`, JSON.stringify(answersData));
+
         setResults(transformedResult);
       } catch (err) {
         console.error('Error:', err);
@@ -105,5 +132,5 @@ export default function ResultsPage({
     );
   }
 
-  return <ResultsDisplay results={results} />;
+  return <ResultsDisplay results={results} currentTema={currentTema} />;
 }
