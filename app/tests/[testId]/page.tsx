@@ -86,28 +86,22 @@ export default function SelectDifficultyPage({
     if (!testId) return;
     setLoading(true);
     try {
-      const response = await fetch(`/api/tests/${testId}/start`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userName,
-          difficulty,
-        }),
-      });
+      // Generar sessionId único localmente
+      const sessionId = `${testId}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 
-      const result = await response.json();
+      // Guardar datos de la sesión en localStorage
+      localStorage.setItem(`session_${sessionId}`, JSON.stringify({
+        testId: parseInt(testId),
+        userName,
+        difficulty,
+        startTime: Date.now(),
+      }));
 
-      if (result.success) {
-        const sessionId = result.data.sessionId;
-        router.push(`/tests/${testId}/session/${sessionId}`);
-      } else {
-        alert('Error al iniciar test: ' + result.error);
-      }
+      // Navegar al test
+      router.push(`/tests/${testId}/session/${sessionId}`);
     } catch (error) {
       console.error('Error:', error);
-      alert('Error al conectar con el servidor');
+      alert('Error al iniciar test');
     } finally {
       setLoading(false);
     }

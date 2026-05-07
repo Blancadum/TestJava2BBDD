@@ -513,10 +513,21 @@ function TestSessionPage({ params }) {
             const fetchQuestions = {
                 "TestSessionPage.useEffect.fetchQuestions": async ()=>{
                     try {
-                        const response = await fetch(`http://localhost:8080/api/tests/${testIdState}/preguntas`);
+                        const response = await fetch(`/data/preguntas-${testIdState}.json`);
+                        if (!response.ok) throw new Error('Preguntas no encontradas');
                         const data = await response.json();
-                        // Transformar respuesta del backend al formato esperado
-                        const sampleQuestions = data.map({
+                        // Filtrar por dificultad y limitar a 10
+                        const difficultyMap = {
+                            'BAJA': 1,
+                            'MEDIA': 2,
+                            'ALTA': 3
+                        };
+                        const selectedDifficulty = difficultyMap['MEDIA']; // Por defecto MEDIA
+                        const filteredQuestions = data.filter({
+                            "TestSessionPage.useEffect.fetchQuestions.filteredQuestions": (q)=>q.dificultad === selectedDifficulty
+                        }["TestSessionPage.useEffect.fetchQuestions.filteredQuestions"]).slice(0, 10);
+                        // Transformar respuesta al formato esperado
+                        const sampleQuestions = filteredQuestions.map({
                             "TestSessionPage.useEffect.fetchQuestions.sampleQuestions": (q)=>({
                                     questionId: q.id,
                                     text: q.texto,
@@ -527,7 +538,7 @@ function TestSessionPage({ params }) {
                                         d: q.opciones[2],
                                         f: q.opciones[3]
                                     },
-                                    correctAnswer: 'a' // Placeholder, será validado por backend
+                                    correctAnswer: q.respuestaCorrecta
                                 })
                         }["TestSessionPage.useEffect.fetchQuestions.sampleQuestions"]);
                         const initialData = {
@@ -575,34 +586,28 @@ function TestSessionPage({ params }) {
         setSelectedOption(null);
         setAnswering(true);
         try {
-            const response = await fetch(`http://localhost:8080/api/tests/${testIdState}/respuesta`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    preguntaId: currentQuestion.questionId,
-                    respuesta: answer
-                })
-            });
-            const result = await response.json();
-            // El backend devuelve esCorrecta en la respuesta
-            if (result.respuesta !== undefined) {
-                // Mostrar feedback por 1.5 segundos, luego ir a resultados si es la última pregunta
-                setTimeout(()=>{
-                    if (currentQuestionIndex < sessionData.questions.length - 1) {
-                        setCurrentQuestionIndex(currentQuestionIndex + 1);
-                    } else if (currentQuestionIndex === sessionData.questions.length - 1) {
-                        // Si es la última pregunta, ir a resultados
-                        router.push(`/results/${testIdState}/${sessionIdState}`);
-                    }
-                }, 1500);
-            } else {
-                setError('Error al responder');
-            }
+            // Verificar localmente si la respuesta es correcta
+            const isCorrect = answer === currentQuestion.correctAnswer;
+            // Guardar la respuesta en localStorage para los resultados
+            const answersData = JSON.parse(localStorage.getItem(`test_${sessionIdState}`) || '{}');
+            answersData[currentQuestion.questionId] = {
+                answer,
+                isCorrect,
+                concept: 'Concepto'
+            };
+            localStorage.setItem(`test_${sessionIdState}`, JSON.stringify(answersData));
+            // Mostrar feedback por 1.5 segundos, luego ir a resultados si es la última pregunta
+            setTimeout(()=>{
+                if (currentQuestionIndex < sessionData.questions.length - 1) {
+                    setCurrentQuestionIndex(currentQuestionIndex + 1);
+                } else if (currentQuestionIndex === sessionData.questions.length - 1) {
+                    // Si es la última pregunta, ir a resultados
+                    router.push(`/results/${testIdState}/${sessionIdState}`);
+                }
+            }, 1500);
         } catch (err) {
             console.error('Error:', err);
-            setError('Error al conectar con el servidor');
+            setError('Error al procesar respuesta');
         } finally{
             setAnswering(false);
         }
@@ -693,17 +698,17 @@ function TestSessionPage({ params }) {
                     children: "Cargando test..."
                 }, void 0, false, {
                     fileName: "[project]/app/tests/[testId]/session/[sessionId]/page.tsx",
-                    lineNumber: 218,
+                    lineNumber: 219,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/app/tests/[testId]/session/[sessionId]/page.tsx",
-                lineNumber: 217,
+                lineNumber: 218,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/app/tests/[testId]/session/[sessionId]/page.tsx",
-            lineNumber: 216,
+            lineNumber: 217,
             columnNumber: 7
         }, this);
     }
@@ -718,7 +723,7 @@ function TestSessionPage({ params }) {
                         children: error
                     }, void 0, false, {
                         fileName: "[project]/app/tests/[testId]/session/[sessionId]/page.tsx",
-                        lineNumber: 228,
+                        lineNumber: 229,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -727,18 +732,18 @@ function TestSessionPage({ params }) {
                         children: "Volver al inicio"
                     }, void 0, false, {
                         fileName: "[project]/app/tests/[testId]/session/[sessionId]/page.tsx",
-                        lineNumber: 229,
+                        lineNumber: 230,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/tests/[testId]/session/[sessionId]/page.tsx",
-                lineNumber: 227,
+                lineNumber: 228,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/app/tests/[testId]/session/[sessionId]/page.tsx",
-            lineNumber: 226,
+            lineNumber: 227,
             columnNumber: 7
         }, this);
     }
@@ -753,7 +758,7 @@ function TestSessionPage({ params }) {
                         children: "No se pudieron cargar las preguntas"
                     }, void 0, false, {
                         fileName: "[project]/app/tests/[testId]/session/[sessionId]/page.tsx",
-                        lineNumber: 244,
+                        lineNumber: 245,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -762,18 +767,18 @@ function TestSessionPage({ params }) {
                         children: "Volver al inicio"
                     }, void 0, false, {
                         fileName: "[project]/app/tests/[testId]/session/[sessionId]/page.tsx",
-                        lineNumber: 245,
+                        lineNumber: 246,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/tests/[testId]/session/[sessionId]/page.tsx",
-                lineNumber: 243,
+                lineNumber: 244,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/app/tests/[testId]/session/[sessionId]/page.tsx",
-            lineNumber: 242,
+            lineNumber: 243,
             columnNumber: 7
         }, this);
     }
@@ -788,17 +793,17 @@ function TestSessionPage({ params }) {
                     children: "Test completado"
                 }, void 0, false, {
                     fileName: "[project]/app/tests/[testId]/session/[sessionId]/page.tsx",
-                    lineNumber: 262,
+                    lineNumber: 263,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/app/tests/[testId]/session/[sessionId]/page.tsx",
-                lineNumber: 261,
+                lineNumber: 262,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/app/tests/[testId]/session/[sessionId]/page.tsx",
-            lineNumber: 260,
+            lineNumber: 261,
             columnNumber: 7
         }, this);
     }
@@ -816,7 +821,7 @@ function TestSessionPage({ params }) {
         confirmedAnswer: confirmedAnswer
     }, void 0, false, {
         fileName: "[project]/app/tests/[testId]/session/[sessionId]/page.tsx",
-        lineNumber: 269,
+        lineNumber: 270,
         columnNumber: 5
     }, this);
 }

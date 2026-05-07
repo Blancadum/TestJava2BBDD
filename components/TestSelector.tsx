@@ -73,13 +73,18 @@ export default function TestSelector() {
 
   async function fetchTests() {
     try {
-      const response = await fetch('/api/tests');
-      const result = await response.json();
-      if (result.success) {
-        setTests(result.tests);
-      } else {
-        setError('Error al cargar tests');
-      }
+      const response = await fetch('/data/temas.json');
+      const temas = await response.json();
+
+      // Transformar temas al formato esperado por el frontend
+      const transformedTests: Test[] = temas.map((tema: any) => ({
+        id: tema.id,
+        name: tema.nombre,
+        category: 'BaseDatos', // Todos los temas van a BaseDatos por ahora
+        totalQuestions: 30,
+      }));
+
+      setTests(transformedTests);
     } catch (err) {
       setError('Error al conectar con el servidor');
       console.error(err);

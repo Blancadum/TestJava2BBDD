@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "nombre": "Conceptos SQL",
+    "descripcion": "Fundamentos de SQL",
+    "icono": "📊"
+  },
+  {
+    "id": 2,
+    "nombre": "PostgreSQL Básico",
+    "descripcion": "Introducción a PostgreSQL",
+    "icono": "🗄️"
+  },
+  {
+    "id": 3,
+    "nombre": "Consultas Avanzadas",
+    "descripcion": "JOINs, subconsultas, funciones",
+    "icono": "🔍"
+  },
+  {
+    "id": 4,
+    "nombre": "Transacciones",
+    "descripcion": "ACID, isolation levels",
+    "icono": "🔄"
+  },
+  {
+    "id": 5,
+    "nombre": "Hibernate ORM",
+    "descripcion": "Object-Relational Mapping",
+    "icono": "🛢️"
+  },
+  {
+    "id": 6,
+    "nombre": "Básicos de Java",
+    "descripcion": "Tipos, operadores, control de flujo",
+    "icono": "☕"
+  },
+  {
+    "id": 7,
+    "nombre": "OOP",
+    "descripcion": "Clases, herencia, polimorfismo",
+    "icono": "🏗️"
+  },
+  {
+    "id": 8,
+    "nombre": "Excepciones",
+    "descripcion": "Manejo de errores",
+    "icono": "⚠️"
+  },
+  {
+    "id": 9,
+    "nombre": "Colecciones",
+    "descripcion": "ArrayList, HashMap, etc.",
+    "icono": "📦"
+  },
+  {
+    "id": 10,
+    "nombre": "Hibernate en Java",
+    "descripcion": "ORM avanzado",
+    "icono": "🚀"
+  }
+]

@@ -134,26 +134,20 @@ function SelectDifficultyPage({ params }) {
         if (!testId) return;
         setLoading(true);
         try {
-            const response = await fetch(`/api/tests/${testId}/start`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    userName,
-                    difficulty
-                })
-            });
-            const result = await response.json();
-            if (result.success) {
-                const sessionId = result.data.sessionId;
-                router.push(`/tests/${testId}/session/${sessionId}`);
-            } else {
-                alert('Error al iniciar test: ' + result.error);
-            }
+            // Generar sessionId único localmente
+            const sessionId = `${testId}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+            // Guardar datos de la sesión en localStorage
+            localStorage.setItem(`session_${sessionId}`, JSON.stringify({
+                testId: parseInt(testId),
+                userName,
+                difficulty,
+                startTime: Date.now()
+            }));
+            // Navegar al test
+            router.push(`/tests/${testId}/session/${sessionId}`);
         } catch (error) {
             console.error('Error:', error);
-            alert('Error al conectar con el servidor');
+            alert('Error al iniciar test');
         } finally{
             setLoading(false);
         }
@@ -168,7 +162,7 @@ function SelectDifficultyPage({ params }) {
                     children: "$ java -jar tests.jar --difficulty"
                 }, void 0, false, {
                     fileName: "[project]/app/tests/[testId]/page.tsx",
-                    lineNumber: 119,
+                    lineNumber: 113,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -176,14 +170,14 @@ function SelectDifficultyPage({ params }) {
                     children: "SELECCIONA DIFICULTAD"
                 }, void 0, false, {
                     fileName: "[project]/app/tests/[testId]/page.tsx",
-                    lineNumber: 120,
+                    lineNumber: 114,
                     columnNumber: 9
                 }, this),
                 !testId && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     children: "$ cargando..."
                 }, void 0, false, {
                     fileName: "[project]/app/tests/[testId]/page.tsx",
-                    lineNumber: 123,
+                    lineNumber: 117,
                     columnNumber: 11
                 }, this),
                 testId && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
@@ -196,7 +190,7 @@ function SelectDifficultyPage({ params }) {
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/tests/[testId]/page.tsx",
-                            lineNumber: 128,
+                            lineNumber: 122,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -210,12 +204,12 @@ function SelectDifficultyPage({ params }) {
                                     ]
                                 }, diff.value, true, {
                                     fileName: "[project]/app/tests/[testId]/page.tsx",
-                                    lineNumber: 131,
+                                    lineNumber: 125,
                                     columnNumber: 17
                                 }, this))
                         }, void 0, false, {
                             fileName: "[project]/app/tests/[testId]/page.tsx",
-                            lineNumber: 129,
+                            lineNumber: 123,
                             columnNumber: 13
                         }, this)
                     ]
@@ -223,12 +217,12 @@ function SelectDifficultyPage({ params }) {
             ]
         }, void 0, true, {
             fileName: "[project]/app/tests/[testId]/page.tsx",
-            lineNumber: 118,
+            lineNumber: 112,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/app/tests/[testId]/page.tsx",
-        lineNumber: 117,
+        lineNumber: 111,
         columnNumber: 5
     }, this);
 }

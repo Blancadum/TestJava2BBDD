@@ -52,23 +52,33 @@ export default function TestSessionPage({
 
     const fetchQuestions = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:8080/api/tests/${testIdState}/preguntas`
-        );
+        const response = await fetch(`/data/preguntas-${testIdState}.json`);
+        if (!response.ok) throw new Error('Preguntas no encontradas');
+
         const data = await response.json();
 
-        // Transformar respuesta del backend al formato esperado
-        const sampleQuestions: Pregunta[] = data.map((q: any) => ({
+        // Filtrar por dificultad y limitar a 10
+        const difficultyMap: Record<string, number> = {
+          'BAJA': 1,
+          'MEDIA': 2,
+          'ALTA': 3,
+        };
+
+        const selectedDifficulty = difficultyMap['MEDIA']; // Por defecto MEDIA
+        const filteredQuestions = data.filter((q: any) => q.dificultad === selectedDifficulty).slice(0, 10);
+
+        // Transformar respuesta al formato esperado
+        const sampleQuestions: Pregunta[] = filteredQuestions.map((q: any) => ({
           questionId: q.id,
           text: q.texto,
-          difficulty: q.dificultad,
+          difficulty: q.dificultad as 1 | 2 | 3,
           options: {
             a: q.opciones[0],
             s: q.opciones[1],
             d: q.opciones[2],
             f: q.opciones[3]
           },
-          correctAnswer: 'a' // Placeholder, será validado por backend
+          correctAnswer: q.respuestaCorrecta as 'a' | 's' | 'd' | 'f'
         }));
 
         const initialData = {
@@ -119,39 +129,30 @@ export default function TestSessionPage({
     setAnswering(true);
 
     try {
-      const response = await fetch(
-        `http://localhost:8080/api/tests/${testIdState}/respuesta`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            preguntaId: currentQuestion.questionId,
-            respuesta: answer,
-          }),
+      // Verificar localmente si la respuesta es correcta
+      const isCorrect = answer === currentQuestion.correctAnswer;
+
+      // Guardar la respuesta en localStorage para los resultados
+      const answersData = JSON.parse(localStorage.getItem(`test_${sessionIdState}`) || '{}');
+      answersData[currentQuestion.questionId] = {
+        answer,
+        isCorrect,
+        concept: 'Concepto'
+      };
+      localStorage.setItem(`test_${sessionIdState}`, JSON.stringify(answersData));
+
+      // Mostrar feedback por 1.5 segundos, luego ir a resultados si es la última pregunta
+      setTimeout(() => {
+        if (currentQuestionIndex < sessionData.questions.length - 1) {
+          setCurrentQuestionIndex(currentQuestionIndex + 1);
+        } else if (currentQuestionIndex === sessionData.questions.length - 1) {
+          // Si es la última pregunta, ir a resultados
+          router.push(`/results/${testIdState}/${sessionIdState}`);
         }
-      );
-
-      const result = await response.json();
-
-      // El backend devuelve esCorrecta en la respuesta
-      if (result.respuesta !== undefined) {
-        // Mostrar feedback por 1.5 segundos, luego ir a resultados si es la última pregunta
-        setTimeout(() => {
-          if (currentQuestionIndex < sessionData.questions.length - 1) {
-            setCurrentQuestionIndex(currentQuestionIndex + 1);
-          } else if (currentQuestionIndex === sessionData.questions.length - 1) {
-            // Si es la última pregunta, ir a resultados
-            router.push(`/results/${testIdState}/${sessionIdState}`);
-          }
-        }, 1500);
-      } else {
-        setError('Error al responder');
-      }
+      }, 1500);
     } catch (err) {
       console.error('Error:', err);
-      setError('Error al conectar con el servidor');
+      setError('Error al procesar respuesta');
     } finally {
       setAnswering(false);
     }

@@ -34,34 +34,32 @@ export default function ResultsPage({
       if (!sessionId || !testId) return;
 
       try {
-        const response = await fetch(`http://localhost:8080/api/tests/${testId}/resultados`);
-        const result = await response.json();
+        // Obtener respuestas desde localStorage
+        const answersData = JSON.parse(localStorage.getItem(`test_${sessionId}`) || '{}');
+        const correctAnswers = Object.values(answersData).filter((a: any) => a.isCorrect).length;
+        const totalQuestions = Object.keys(answersData).length;
+        const percentage = totalQuestions > 0 ? Math.round((correctAnswers / totalQuestions) * 100) : 0;
 
-        if (result.puntuacion !== undefined) {
-          // Transformar respuesta del backend al formato esperado
-          const evaluation = result.porcentaje >= 90 ? 'EXCELENTE' :
-                           result.porcentaje >= 80 ? 'BIEN' :
-                           result.porcentaje >= 60 ? 'REGULAR' : 'NECESITA_MEJORA';
+        const evaluation = percentage >= 90 ? 'EXCELENTE' :
+                         percentage >= 80 ? 'BIEN' :
+                         percentage >= 60 ? 'REGULAR' : 'NECESITA_MEJORA';
 
-          const transformedResult: TestResult = {
-            sessionId: sessionId || '',
-            testId: parseInt(testId || '0'),
-            userName: 'Usuario',
-            score: result.puntuacion,
-            totalQuestions: result.totalPreguntas,
-            percentage: result.porcentaje,
-            evaluation: evaluation,
-            weakConcepts: result.conceptosDebiles || [],
-            suggestions: {},
-            completedAt: Date.now(),
-          };
-          setResults(transformedResult);
-        } else {
-          setError('Error al cargar resultados');
-        }
+        const transformedResult: TestResult = {
+          sessionId: sessionId || '',
+          testId: parseInt(testId || '0'),
+          userName: 'Usuario',
+          score: correctAnswers,
+          totalQuestions: totalQuestions,
+          percentage: percentage,
+          evaluation: evaluation,
+          weakConcepts: [],
+          suggestions: {},
+          completedAt: Date.now(),
+        };
+        setResults(transformedResult);
       } catch (err) {
         console.error('Error:', err);
-        setError('Error al conectar con el servidor');
+        setError('Error al cargar resultados');
       } finally {
         setLoading(false);
       }

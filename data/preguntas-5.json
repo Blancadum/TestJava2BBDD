@@ -1,0 +1,212 @@
+[
+  {
+    "id": 1,
+    "texto": "P1. ORM (Object-Relational Mapping) mapea:",
+    "opciones": ["Objetos SQL", "Objetos Java a filas BD", "Archivos", "Carpetas"],
+    "dificultad": 1,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 2,
+    "texto": "P2. Hibernate es un ORM para:",
+    "opciones": ["Multiplicar", "Mapear Java a BD", "Compilar", "Diseñar web"],
+    "dificultad": 1,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 3,
+    "texto": "P3. @Entity en Hibernate marca:",
+    "opciones": ["Una variable", "Una clase mapeada a tabla", "Un método", "Un paquete"],
+    "dificultad": 1,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 4,
+    "texto": "P4. @Table(name='users') sirve para:",
+    "opciones": ["Cambiar clase nombre", "Especificar nombre tabla en BD", "Crear tabla", "Borrar datos"],
+    "dificultad": 1,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 5,
+    "texto": "P5. @Id marca:",
+    "opciones": ["Identificador único (Primary Key)", "Importación", "Variable interna", "Método"],
+    "dificultad": 1,
+    "respuestaCorrecta": "a"
+  },
+  {
+    "id": 6,
+    "texto": "P6. @GeneratedValue estrategia AUTO:",
+    "opciones": ["Número fijo", "Genera ID automáticamente", "Texto", "Error"],
+    "dificultad": 1,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 7,
+    "texto": "P7. @Column(name='user_name') personaliza:",
+    "opciones": ["Clase", "Mapeo columna específica", "Tabla", "BD"],
+    "dificultad": 1,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 8,
+    "texto": "P8. @Column(nullable=false) significa:",
+    "opciones": ["Puede ser NULL", "No puede ser NULL (obligatorio)", "Sin valor", "Error"],
+    "dificultad": 1,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 9,
+    "texto": "P9. @OneToMany relaciona:",
+    "opciones": ["Una fila a una", "Una entidad a muchas", "Muchas a una", "Ninguna"],
+    "dificultad": 1,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 10,
+    "texto": "P10. @ManyToOne relaciona:",
+    "opciones": ["Muchas a muchas", "Muchas entidades a una", "Una a una", "Nada"],
+    "dificultad": 1,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 11,
+    "texto": "P11. @JoinColumn(name='user_id') especifica:",
+    "opciones": ["Clase relacionada", "Columna Foreign Key", "Tabla", "BD"],
+    "dificultad": 2,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 12,
+    "texto": "P12. @ManyToMany requiere:",
+    "opciones": ["Una tabla", "Tabla puente (junction)", "Dos tablas", "Índice"],
+    "dificultad": 2,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 13,
+    "texto": "P13. Lazy loading en Hibernate carga datos:",
+    "opciones": ["Inmediato", "Cuando se accede (bajo demanda)", "Nunca", "Siempre"],
+    "dificultad": 2,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 14,
+    "texto": "P14. Eager loading en Hibernate carga:",
+    "opciones": ["Bajo demanda", "Inmediatamente con padre", "Nunca", "Parcial"],
+    "dificultad": 2,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 15,
+    "texto": "P15. Session en Hibernate es:",
+    "opciones": ["Usuario web", "Contexto persistencia (unidad trabajo)", "Conexión BD", "Transacción"],
+    "dificultad": 2,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 16,
+    "texto": "P16. session.save(objeto) persiste:",
+    "opciones": ["Actualiza", "Inserta nuevo registro", "Deletes", "Consulta"],
+    "dificultad": 2,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 17,
+    "texto": "P17. session.update(objeto) modifica:",
+    "opciones": ["Inserta", "Actualiza registro existente", "Borra", "Lee"],
+    "dificultad": 2,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 18,
+    "texto": "P18. session.delete(objeto) elimina:",
+    "opciones": ["Inserta", "Borra BD", "Copia", "Cierra"],
+    "dificultad": 2,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 19,
+    "texto": "P19. Cascade.ALL en relación significa:",
+    "opciones": ["Borrar", "Propagar cambios padre a hijos", "Nada", "Error"],
+    "dificultad": 2,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 20,
+    "texto": "P20. FetchType.LAZY recomienda usar:",
+    "opciones": ["Nunca", "Siempre en relaciones grandes", "A veces", "En índices"],
+    "dificultad": 2,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 21,
+    "texto": "P21. Detached vs Transient en Hibernate:",
+    "opciones": ["Igual", "Transient=nuevo, Detached=fue persistido", "Opuesto", "Error"],
+    "dificultad": 3,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 22,
+    "texto": "P22. session.merge(objeto) es:",
+    "opciones": ["Borrar", "Sincroniza detached con session", "Insertar", "Consultar"],
+    "dificultad": 3,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 23,
+    "texto": "P23. HQL (Hibernate Query Language):",
+    "opciones": ["SQL puro", "Query sobre objetos (como SQL)", "Lenguaje BD", "Error"],
+    "dificultad": 3,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 24,
+    "texto": "P24. Criteria API en Hibernate permite:",
+    "opciones": ["SQL string", "Queries programáticas (type-safe)", "HQL", "DDL"],
+    "dificultad": 3,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 25,
+    "texto": "P25. N+1 Query Problem es cuando:",
+    "opciones": ["Una query perfecta", "1 SELECT + N SELECT para relaciones", "N queries", "Error"],
+    "dificultad": 3,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 26,
+    "texto": "P26. Batch fetching resuelve N+1 por:",
+    "opciones": ["Ignorar", "Fetch múltiples en batches", "Index", "Cache"],
+    "dificultad": 3,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 27,
+    "texto": "P27. Second-level Cache en Hibernate:",
+    "opciones": ["Memoria session", "Cache compartido entre sesiones", "Disco", "Nada"],
+    "dificultad": 3,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 28,
+    "texto": "P28. @NamedQuery permite:",
+    "opciones": ["Solo select", "Definir queries reutilizables", "DDL", "Variables"],
+    "dificultad": 3,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 29,
+    "texto": "P29. Inheritance mapping @Inheritance:",
+    "opciones": ["No existe", "Mapea herencia Java a BD", "Tabla", "Índice"],
+    "dificultad": 3,
+    "respuestaCorrecta": "s"
+  },
+  {
+    "id": 30,
+    "texto": "P30. @Version en Hibernate detecta:",
+    "opciones": ["Cambios", "Colisiones optimistic locking", "Usuarios", "Tiempo"],
+    "dificultad": 3,
+    "respuestaCorrecta": "s"
+  }
+]
