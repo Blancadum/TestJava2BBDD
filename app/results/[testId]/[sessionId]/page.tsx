@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * Página: results/[sessionId]/page.tsx
+ * Página: results/[testId]/[sessionId]/page.tsx
  * Muestra los resultados finales de una sesión completada
  */
 
@@ -12,9 +12,17 @@ import ResultsDisplay from '@/components/ResultsDisplay';
 export default function ResultsPage({
   params,
 }: {
-  params: { sessionId: string };
+  params: Promise<{ testId: string; sessionId: string }>;
 }) {
-  const { sessionId } = params;
+  const [sessionId, setSessionId] = useState<string | null>(null);
+  const [testId, setTestId] = useState<string | null>(null);
+
+  useEffect(() => {
+    params.then((p) => {
+      setSessionId(p.sessionId);
+      setTestId(p.testId);
+    });
+  }, [params]);
 
   const [results, setResults] = useState<TestResult | null>(null);
   const [loading, setLoading] = useState(true);
@@ -23,16 +31,33 @@ export default function ResultsPage({
   useEffect(() => {
     // Obtener resultados del servidor
     const fetchResults = async () => {
+      if (!sessionId || !testId) return;
+
       try {
-        // Nota: La URL real depende del testId, que debería estar en la sesión
-        // Por simplicidad, enviamos solo el sessionId
-        const response = await fetch(`/api/tests/11/${sessionId}/results`);
+        const response = await fetch(`http://localhost:8080/api/tests/${testId}/resultados`);
         const result = await response.json();
 
-        if (result.success) {
-          setResults(result.data);
+        if (result.puntuacion !== undefined) {
+          // Transformar respuesta del backend al formato esperado
+          const evaluation = result.porcentaje >= 90 ? 'EXCELENTE' :
+                           result.porcentaje >= 80 ? 'BIEN' :
+                           result.porcentaje >= 60 ? 'REGULAR' : 'NECESITA_MEJORA';
+
+          const transformedResult: TestResult = {
+            sessionId: sessionId || '',
+            testId: parseInt(testId || '0'),
+            userName: 'Usuario',
+            score: result.puntuacion,
+            totalQuestions: result.totalPreguntas,
+            percentage: result.porcentaje,
+            evaluation: evaluation,
+            weakConcepts: result.conceptosDebiles || [],
+            suggestions: {},
+            completedAt: Date.now(),
+          };
+          setResults(transformedResult);
         } else {
-          setError(result.error || 'Error al cargar resultados');
+          setError('Error al cargar resultados');
         }
       } catch (err) {
         console.error('Error:', err);
@@ -43,7 +68,7 @@ export default function ResultsPage({
     };
 
     fetchResults();
-  }, [sessionId]);
+  }, [sessionId, testId]);
 
   if (loading) {
     return (

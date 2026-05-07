@@ -13,78 +13,141 @@ import QuestionDisplay from '@/components/QuestionDisplay';
 export default function TestSessionPage({
   params,
 }: {
-  params: { testId: string; sessionId: string };
+  params: Promise<{ testId: string; sessionId: string }>;
 }) {
   const router = useRouter();
-  const { sessionId } = params;
-
+  const [testIdState, setTestIdState] = useState<string | null>(null);
+  const [sessionIdState, setSessionIdState] = useState<string | null>(null);
   const [sessionData, setSessionData] = useState<TestSession | null>(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [answering, setAnswering] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [answers, setAnswers] = useState<Record<number, 'a' | 's' | 'd' | 'f'>>({});
+  const [selectedOption, setSelectedOption] = useState<'a' | 's' | 'd' | 'f' | null>(null);
+  const [confirmedAnswer, setConfirmedAnswer] = useState<'a' | 's' | 'd' | 'f' | null>(null);
 
-  // Cargar datos de la sesión (en producción, obtendría del servidor)
+  // Resolver params
   useEffect(() => {
-    // Por ahora, asumimos que la sesión fue creada en la página anterior
-    // En un caso real, cargarías los datos desde una BD
-    const initialData = {
-      sessionId,
-      testId: parseInt(params.testId),
-      userName: 'Usuario',
-      difficulty: 'MEDIA',
-      startTime: Date.now(),
-      totalQuestions: 30,
-      currentQuestion: 1,
-      answers: [],
-      questions: [],
-      completed: false,
-    } as TestSession;
+    params.then((p) => {
+      setTestIdState(p.testId);
+      setSessionIdState(p.sessionId);
+    });
+  }, [params]);
 
-    // Simulamos cargar preguntas (en producción vendrían de la API)
-    setSessionData(initialData);
-    setLoading(false);
-  }, [sessionId, params]);
+  // Limpiar confirmedAnswer y selectedOption cuando cambia de pregunta
+  useEffect(() => {
+    setSelectedOption(null);
+    // Si ya respondiste esta pregunta, mostrar la respuesta anterior como confirmada
+    if (currentQuestionIndex in answers) {
+      setConfirmedAnswer(answers[currentQuestionIndex]);
+    } else {
+      setConfirmedAnswer(null);
+    }
+  }, [currentQuestionIndex, answers]);
 
-  const handleAnswer = async (answer: 'a' | 's' | 'd' | 'f') => {
-    if (!sessionData) return;
+  // Cargar datos de la sesión
+  useEffect(() => {
+    if (!testIdState || !sessionIdState) return;
+
+    const fetchQuestions = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:8080/api/tests/${testIdState}/preguntas`
+        );
+        const data = await response.json();
+
+        // Transformar respuesta del backend al formato esperado
+        const sampleQuestions: Pregunta[] = data.map((q: any) => ({
+          questionId: q.id,
+          text: q.texto,
+          difficulty: q.dificultad,
+          options: {
+            a: q.opciones[0],
+            s: q.opciones[1],
+            d: q.opciones[2],
+            f: q.opciones[3]
+          },
+          correctAnswer: 'a' // Placeholder, será validado por backend
+        }));
+
+        const initialData = {
+          sessionId: sessionIdState,
+          testId: parseInt(testIdState),
+          userName: 'Usuario',
+          difficulty: 'MEDIA',
+          startTime: Date.now(),
+          totalQuestions: sampleQuestions.length,
+          currentQuestion: 1,
+          answers: [],
+          questions: sampleQuestions,
+          completed: false,
+        } as TestSession;
+
+        setSessionData(initialData);
+        setLoading(false);
+      } catch (err) {
+        console.error('Error cargando preguntas:', err);
+        setError('Error al cargar las preguntas');
+        setLoading(false);
+      }
+    };
+
+    fetchQuestions();
+  }, [testIdState, sessionIdState]);
+
+  const handleAnswer = async (answer: 'a' | 's' | 'd' | 'f', isConfirmed = false) => {
+    if (!sessionData || !testIdState || !sessionIdState) return;
 
     const currentQuestion = sessionData.questions[currentQuestionIndex];
     if (!currentQuestion) return;
 
+    // Si no está confirmada, solo preseleccionar
+    if (!isConfirmed) {
+      setSelectedOption(answer);
+      return;
+    }
+
+    // Guardar respuesta localmente
+    setAnswers((prev) => ({
+      ...prev,
+      [currentQuestionIndex]: answer,
+    }));
+
+    setConfirmedAnswer(answer);
+    setSelectedOption(null);
     setAnswering(true);
 
     try {
       const response = await fetch(
-        `/api/tests/${params.testId}/${sessionId}/answer`,
+        `http://localhost:8080/api/tests/${testIdState}/respuesta`,
         {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            questionId: currentQuestion.questionId,
-            answer,
+            preguntaId: currentQuestion.questionId,
+            respuesta: answer,
           }),
         }
       );
 
       const result = await response.json();
 
-      if (result.success) {
-        const data = result.data;
-
-        // Mostrar feedback por 2 segundos
+      // El backend devuelve esCorrecta en la respuesta
+      if (result.respuesta !== undefined) {
+        // Mostrar feedback por 1.5 segundos, luego ir a resultados si es la última pregunta
         setTimeout(() => {
-          if (data.nextQuestion > sessionData.totalQuestions) {
-            // Test completado
-            router.push(`/results/${sessionId}`);
-          } else {
+          if (currentQuestionIndex < sessionData.questions.length - 1) {
             setCurrentQuestionIndex(currentQuestionIndex + 1);
+          } else if (currentQuestionIndex === sessionData.questions.length - 1) {
+            // Si es la última pregunta, ir a resultados
+            router.push(`/results/${testIdState}/${sessionIdState}`);
           }
-        }, 2000);
+        }, 1500);
       } else {
-        setError('Error al responder: ' + result.error);
+        setError('Error al responder');
       }
     } catch (err) {
       console.error('Error:', err);
@@ -94,18 +157,59 @@ export default function TestSessionPage({
     }
   };
 
-  // Teclado (asdf)
+  // Teclado (asdf + navegación)
   useEffect(() => {
+    const optionOrder: ('a' | 's' | 'd' | 'f')[] = ['a', 's', 'd', 'f'];
+
+    const getNextOption = (current: 'a' | 's' | 'd' | 'f' | null, direction: 'up' | 'down') => {
+      if (!current) return 'a';
+      const currentIndex = optionOrder.indexOf(current);
+      if (direction === 'up') {
+        return optionOrder[(currentIndex - 1 + optionOrder.length) % optionOrder.length];
+      } else {
+        return optionOrder[(currentIndex + 1) % optionOrder.length];
+      }
+    };
+
     const handleKeyPress = (e: KeyboardEvent) => {
       const key = e.key.toLowerCase();
       if (['a', 's', 'd', 'f'].includes(key) && !answering) {
-        handleAnswer(key as 'a' | 's' | 'd' | 'f');
+        // Preseleccionar opción
+        handleAnswer(key as 'a' | 's' | 'd' | 'f', false);
+      } else if (key === 'enter' && selectedOption && !answering) {
+        // Confirmar selección con ENTER
+        handleAnswer(selectedOption, true);
+      } else if (key === 'arrowup' && !answering) {
+        // Navegar arriba entre opciones
+        e.preventDefault();
+        setSelectedOption(getNextOption(selectedOption, 'up'));
+      } else if (key === 'arrowdown' && !answering) {
+        // Navegar abajo entre opciones
+        e.preventDefault();
+        setSelectedOption(getNextOption(selectedOption, 'down'));
+      } else if (key === 'arrowleft') {
+        e.preventDefault();
+        // Siempre permitir ir atrás
+        setCurrentQuestionIndex(Math.max(0, currentQuestionIndex - 1));
+      } else if (key === 'arrowright') {
+        e.preventDefault();
+        // Solo permitir ir adelante si ya respondió la pregunta actual
+        if (currentQuestionIndex in answers) {
+          if (sessionData && currentQuestionIndex < sessionData.questions.length - 1) {
+            setCurrentQuestionIndex(currentQuestionIndex + 1);
+          } else if (sessionData && currentQuestionIndex === sessionData.questions.length - 1 && Object.keys(answers).length === sessionData.questions.length) {
+            // Si está en la última pregunta y ha respondido todas, enviar
+            router.push(`/results/${testIdState}/${sessionIdState}`);
+          }
+        }
+      } else if (key === 'escape') {
+        router.push('/');
       }
     };
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [currentQuestionIndex, answering, sessionData]);
+  }, [currentQuestionIndex, sessionData, testIdState, sessionIdState, router, answers, selectedOption]);
 
   if (loading) {
     return (
@@ -170,6 +274,10 @@ export default function TestSessionPage({
       }}
       onAnswer={handleAnswer}
       isLoading={answering}
+      currentAnswer={selectedOption}
+      hasAnswered={currentQuestionIndex in answers}
+      selectedOption={selectedOption}
+      confirmedAnswer={confirmedAnswer}
     />
   );
 }

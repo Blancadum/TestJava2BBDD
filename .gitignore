@@ -30,3 +30,8 @@ logs/
 .env.local
 node_modules/
 dist/
+
+# Next.js
+.next/
+.turbo/
+out/

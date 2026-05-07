@@ -5,6 +5,7 @@
  * Muestra resultados finales del test
  */
 
+import { useEffect, useState } from 'react';
 import { TestResult } from '@/lib/types';
 import { useRouter } from 'next/navigation';
 
@@ -12,8 +13,57 @@ interface ResultsDisplayProps {
   results: TestResult;
 }
 
+type ColorOption = 'green' | 'white' | 'yellow' | 'cyan' | 'red' | 'purple' | 'fuchsia' | 'gradient';
+
+const colorMap: Record<ColorOption, string> = {
+  green: 'text-green-300',
+  white: 'text-white',
+  yellow: 'text-yellow-300',
+  cyan: 'text-cyan-300',
+  red: 'text-red-300',
+  purple: 'text-purple-300',
+  fuchsia: 'text-fuchsia-300',
+  gradient: 'text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-blue-400',
+};
+
+const getBorderClass = (color: ColorOption): string => {
+  const map: Record<ColorOption, string> = {
+    green: 'border-green-300',
+    white: 'border-white',
+    yellow: 'border-yellow-300',
+    cyan: 'border-cyan-300',
+    red: 'border-red-300',
+    purple: 'border-purple-300',
+    fuchsia: 'border-fuchsia-300',
+    gradient: 'border-pink-400',
+  };
+  return map[color];
+};
+
+const getHoverBgClass = (color: ColorOption): string => {
+  const map: Record<ColorOption, string> = {
+    green: 'hover:bg-green-300',
+    white: 'hover:bg-white',
+    yellow: 'hover:bg-yellow-300',
+    cyan: 'hover:bg-cyan-300',
+    red: 'hover:bg-red-300',
+    purple: 'hover:bg-purple-300',
+    fuchsia: 'hover:bg-fuchsia-300',
+    gradient: 'hover:bg-pink-400',
+  };
+  return map[color];
+};
+
 export default function ResultsDisplay({ results }: ResultsDisplayProps) {
   const router = useRouter();
+  const [fontColor, setFontColor] = useState<ColorOption>('green');
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    const savedColor = (localStorage.getItem('terminalFontColor') as ColorOption) || 'green';
+    setFontColor(savedColor);
+    setMounted(true);
+  }, []);
 
   const getEvaluationColor = (evaluation: string) => {
     switch (evaluation) {
@@ -37,49 +87,39 @@ export default function ResultsDisplay({ results }: ResultsDisplayProps) {
     return 'bg-red-100 text-red-800';
   };
 
+  if (!mounted) return null;
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
+    <div className={`min-h-screen bg-black p-4 font-mono text-sm ${colorMap[fontColor]}`}>
       <div className="max-w-2xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-2">🎉 ¡Completado!</h1>
-          <p className="text-gray-600">Aquí están tus resultados</p>
-        </div>
+        <div className="mb-1">$ java -jar tests.jar --results</div>
+        <div className={`mb-4 ${fontColor === 'gradient' ? colorMap[fontColor] : colorMap[fontColor]}`}>TEST COMPLETADO</div>
 
-        {/* Tarjeta de resultados */}
-        <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
-          {/* Puntuación principal */}
-          <div className="text-center mb-8">
-            <div className={`inline-block px-8 py-4 rounded-full mb-4 ${getPercentageColor(results.percentage)}`}>
-              <div className="text-4xl font-bold">{results.percentage}%</div>
-              <div className="text-sm font-semibold">
-                {results.score} de {results.totalQuestions} correctas
-              </div>
-            </div>
+        {/* Resultados */}
+        <div className="mb-4">
+          {/* Puntuación */}
+          <div className="mb-2">
+            <div className="font-bold text-yellow-600">{results.percentage}% [{results.score}/{results.totalQuestions}]</div>
           </div>
 
           {/* Evaluación */}
-          <div className="text-center mb-8">
-            <h2 className={`text-3xl font-bold ${getEvaluationColor(results.evaluation)}`}>
+          <div className={`mb-4 pb-2 border-b ${getBorderClass(fontColor)}`}>
+            <h2 className={`font-bold ${getEvaluationColor(results.evaluation)}`}>
               {results.evaluation}
             </h2>
           </div>
 
-          <hr className="my-8" />
-
           {/* Conceptos débiles */}
           {results.weakConcepts.length > 0 && (
-            <div className="mb-8">
-              <h3 className="text-xl font-bold text-gray-800 mb-4">📚 Conceptos a reforzar:</h3>
-              <div className="space-y-3">
+            <div className="mb-4">
+              <div className={`${colorMap[fontColor]} font-bold mb-2`}>[ POR MEJORAR ]</div>
+              <div className="space-y-1 ml-2 text-sm">
                 {results.weakConcepts.map((concept) => (
-                  <div
-                    key={concept}
-                    className="bg-orange-50 border-l-4 border-orange-400 p-4 rounded"
-                  >
-                    <h4 className="font-semibold text-gray-800">{concept}</h4>
+                  <div key={concept}>
+                    - {concept}
                     {results.suggestions[concept] && (
-                      <p className="text-sm text-gray-600 mt-2">{results.suggestions[concept]}</p>
+                      <div className="text-xs text-yellow-600 ml-2">{results.suggestions[concept]}</div>
                     )}
                   </div>
                 ))}
@@ -88,36 +128,32 @@ export default function ResultsDisplay({ results }: ResultsDisplayProps) {
           )}
 
           {results.weakConcepts.length === 0 && (
-            <div className="bg-green-50 border-l-4 border-green-400 p-4 rounded mb-8">
-              <p className="text-green-800 font-semibold">
-                ✅ ¡Excelente! No tienes conceptos débiles identificados.
-              </p>
+            <div className={`mb-4 ${colorMap[fontColor]}`}>
+              ✓ Dominas todos los conceptos
             </div>
           )}
         </div>
 
-        {/* Botones de acción */}
-        <div className="flex gap-4 justify-center">
+        {/* Información */}
+        <div className={`text-xs mb-4 pb-2 border-b ${getBorderClass(fontColor)}`}>
+          <div>{results.userName}</div>
+          <div>{new Date(results.completedAt).toLocaleString()}</div>
+        </div>
+
+        {/* Botones */}
+        <div className="flex gap-2">
           <button
             onClick={() => router.push('/')}
-            className="px-8 py-3 bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600 transition"
+            className={`px-2 py-1 ${colorMap[fontColor]} ${getHoverBgClass(fontColor)} hover:text-black transition font-mono text-sm`}
           >
-            📋 Volver al menú
+            [MENU]
           </button>
           <button
             onClick={() => window.print()}
-            className="px-8 py-3 bg-gray-500 text-white rounded-lg font-semibold hover:bg-gray-600 transition"
+            className={`px-2 py-1 ${colorMap[fontColor]} ${getHoverBgClass(fontColor)} hover:text-black transition font-mono text-sm`}
           >
-            🖨️ Imprimir resultados
+            [IMPRIMIR]
           </button>
-        </div>
-
-        {/* Información de sesión */}
-        <div className="mt-8 bg-gray-100 rounded-lg p-4 text-center text-sm text-gray-600">
-          <p>Nombre: <span className="font-semibold">{results.userName}</span></p>
-          <p>
-            Fecha: <span className="font-semibold">{new Date(results.completedAt).toLocaleString()}</span>
-          </p>
         </div>
       </div>
     </div>
